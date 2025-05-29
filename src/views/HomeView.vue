@@ -1,9 +1,14 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <h1>Página Inicial</h1>
+    <RouterLink to="/cadastro">Cadastro</RouterLink>
   </main>
 </template>
+
+<style scoped>
+
+</style>
