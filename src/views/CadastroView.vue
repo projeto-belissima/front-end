@@ -4,8 +4,8 @@
 
 <template>
     <main>
-        <h2>Cadastro</h2>
-        <form>
+        <h2 class="titulo">Cadastro</h2>
+        <form class="container">
             <div>
                 <label>Nome social:</label>
                 <input type="text">
@@ -13,19 +13,6 @@
             <div>
                 <label>E-mail:</label>
                 <input type="email">
-            </div>
-            <div>
-                <label>Gênero:</label>
-                <select name="genero" id="genero-input">
-                    <option value="F">Feminino</option>
-                    <option value="M">Masculino</option>
-                    <option value="O">Outro</option>
-                    <option value="P">Prefiro não informar</option>
-                </select>
-            </div>
-            <div>
-                <label>Data de nascimento:</label>
-                <input type="date">
             </div>
             <div>
                 <label>Telefone:</label>
@@ -66,5 +53,16 @@
 </template>
 
 <style scoped>
-
+    .titulo {
+        text-align: center;
+        font-family: var(--fonte-principal);
+    }
+    .container {
+        display: grid;
+        border-radius: 5px;
+        background-color: #f2f2f2;
+        padding: 20px;
+        margin: 50px;
+        font-family: var(--fonte-principal);
+    }
 </style>
