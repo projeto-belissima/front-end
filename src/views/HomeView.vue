@@ -95,6 +95,20 @@ onMounted(() => {
       </div>
     </section>
 
+    <section>
+
+      <div class="secao-colaboradores">
+        <h2>Quem somos nós?</h2>
+          <div class="colaboradores-img">
+           <img src="/src/assets/img/curtida.png" alt="curtida">
+           <img src="/src/assets/img/curtida.png" alt="curtida">
+           <img src="/src/assets/img/curtida.png" alt="curtida">
+           <img src="/src/assets/img/curtida.png" alt="curtida">
+           <img src="/src/assets/img/curtida.png" alt="curtida">
+          </div>
+         
+    </div>
+    </section>
   </main>
 </template>
 
@@ -154,11 +168,38 @@ onMounted(() => {
     height: auto;
     display: grid;
     column-gap: .5rem;
+    align-items: center;
+
+   
   }
 
   .swiper-slide {
     & img {
       width: 20rem;
     }
+  .secao-colaboradores {
+    text-align: center;
+
+    & h2 {
+      font-family: var(--fonte-principal);
+      font-weight: 700;
+    }
+
   }
+
+  }
+  .colaboradores-img{
+    display: flex;
+    margin-top: 3rem;
+    padding: 1rem;
+    max-width: 85%;
+    justify-self: center;
+    gap: 1rem;
+   
+    & img {
+       width: 10rem;
+    }
+   
+
+}
 </style>
