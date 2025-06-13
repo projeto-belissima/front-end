@@ -1,3 +1,13 @@
+<script setup>
+
+</script>
+
 <template>
-  <router-link to="/login">login</router-link>
+  <main>
+    
+  </main>
 </template>
+
+<style scoped>
+
+</style>
