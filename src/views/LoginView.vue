@@ -20,7 +20,7 @@
 
       <div>
         <p><a>Esqueceu a senha?</a></p>
-        <p><a>Fazer o cadastro</a></p>
+        <p><Router-Link to="/cadastro">Fazer o cadastro</Router-Link></p>
       </div>
     </section>
   </main>
