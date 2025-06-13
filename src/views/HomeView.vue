@@ -95,19 +95,35 @@ onMounted(() => {
       </div>
     </section>
 
-    <section>
+    <section class="secao-colaboradores">
+      <h2>Quem somos nós?</h2>
 
-      <div class="secao-colaboradores">
-        <h2>Quem somos nós?</h2>
-          <div class="colaboradores-img">
-           <img src="/src/assets/img/curtida.png" alt="curtida">
-           <img src="/src/assets/img/curtida.png" alt="curtida">
-           <img src="/src/assets/img/curtida.png" alt="curtida">
-           <img src="/src/assets/img/curtida.png" alt="curtida">
-           <img src="/src/assets/img/curtida.png" alt="curtida">
-          </div>
-         
-    </div>
+      <div class="colaboradores-img">
+        <div>
+          <img src="/src/assets/img/ester.png" alt="Ester">
+          <p>Ester</p>
+        </div>
+
+        <div>
+          <img src="/src/assets/img/renata.png" alt="Renata">
+          <p>Renata</p>
+        </div>
+
+        <div>
+          <img src="/src/assets/img/ruama.png" alt="Ruama">
+          <p>Ruama</p>
+        </div>
+
+        <div>
+          <img src="/src/assets/img/vinicius.png" alt="Vinícius">
+          <p>Vinícius</p>
+        </div>
+
+        <div>
+          <img src="/src/assets/img/vitoria.png" alt="Vitória">
+          <p>Vitória</p>
+        </div>
+      </div>
     </section>
   </main>
 </template>
@@ -169,25 +185,36 @@ onMounted(() => {
     display: grid;
     column-gap: .5rem;
     align-items: center;
-
-   
   }
 
   .swiper-slide {
+    font-family: var(--fonte-principal);
+
     & img {
       width: 20rem;
     }
-  .secao-colaboradores {
-    text-align: center;
 
-    & h2 {
-      font-family: var(--fonte-principal);
-      font-weight: 700;
+    & h6 {
+      font-weight: 400;
+      font-size: .8rem;
     }
 
+    & p {
+      font-weight: 500;
+      font-size: 1.2rem;
+    }
   }
 
+  .secao-colaboradores {
+    text-align: center;
+    margin: 5rem 0;
+    font-family: var(--fonte-principal);
+
+    & h2 {
+      font-weight: 700;
+    }
   }
+
   .colaboradores-img{
     display: flex;
     margin-top: 3rem;
@@ -195,11 +222,11 @@ onMounted(() => {
     max-width: 85%;
     justify-self: center;
     gap: 1rem;
-   
-    & img {
-       width: 10rem;
-    }
-   
 
+    & img {
+      width: 10rem;
+      border-radius: 50%;
+      object-fit: cover;
+    }
 }
 </style>
