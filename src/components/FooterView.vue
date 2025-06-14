@@ -81,7 +81,6 @@
 
   .secao-links {
     display: flex;
-    gap: 1rem;
     justify-content: space-between;
     padding: 3rem 0;
     border-top: 1px solid var(--cor-cinza-auxiliar);
@@ -127,7 +126,33 @@
   .secao-dados {
     display: flex;
     justify-content: space-between;
+    gap: 1rem;
     margin: 1rem 0 0;
     padding: 1rem;
+  }
+
+  @media (max-width: 780px) {
+    .secao-dados {
+      flex-direction: column;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .links-redes {
+      margin-top: 1rem;
+    }
+
+    .secao-links {
+      flex-direction: column-reverse;
+    }
+
+    .links-internos {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--cor-cinza-auxiliar);
+
+      & h5 {
+        margin-bottom: 1.5rem;
+      }
+    }
   }
 </style>
