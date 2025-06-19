@@ -50,12 +50,12 @@ onMounted(() => {
         spaceBetween: 20
       },
       // when window width is >= 480px
-      480: {
+      520: {
         slidesPerView: 2,
         spaceBetween: 30
       },
       // when window width is >= 640px
-      640: {
+      700: {
         slidesPerView: 3,
         spaceBetween: 40
       }
@@ -89,8 +89,16 @@ onMounted(() => {
           </div>
         </div>
 
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-arrow-left-short" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5"/>
+          </svg>
+        </div>
+        <div class="swiper-button-next">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8"/>
+          </svg>
+        </div>
 
       </div>
     </section>
@@ -191,7 +199,7 @@ onMounted(() => {
     font-family: var(--fonte-principal);
 
     & img {
-      width: 20rem;
+      width: 25vw;
     }
 
     & h6 {
@@ -205,7 +213,22 @@ onMounted(() => {
     }
   }
 
+  .swiper-button-prev,
+  .swiper-button-next {
+    width: 25px;
+    height: 25px;
+    background-color: white;
+    border-radius: 50%;
+    color: black;
+  }
+
+  .swiper-button-prev::after,
+  .swiper-button-next::after {
+    content: none;
+  }
+
   .secao-colaboradores {
+    display: grid;
     text-align: center;
     margin: 5rem 0;
     font-family: var(--fonte-principal);
@@ -216,10 +239,9 @@ onMounted(() => {
   }
 
   .colaboradores-img{
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     margin-top: 3rem;
-    padding: 1rem;
-    max-width: 85%;
     justify-self: center;
     gap: 1rem;
 
@@ -229,4 +251,38 @@ onMounted(() => {
       object-fit: cover;
     }
 }
+
+@media (max-width: 890px) {
+  .colaboradores-img {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .swiper-slide img {
+    width: 35vw;
+  }
+}
+
+@media (max-width: 550px) {
+  .colaboradores-img {
+    grid-template-columns: 1fr;
+  }
+
+  .secao-stories-story img {
+    width: 15vw;
+  }
+}
+
+@media (max-width: 520px) {
+  .swiper-slide img {
+    width: 80vw;
+  }
+
+  .secao-stories-story h5 {
+    font-size: 4vw;
+  }
+}
+
+
 </style>
