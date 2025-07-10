@@ -15,8 +15,17 @@ const produtos = ref([
   {id: 1, email_usuario: 'a@a.com', valor: 'R$ 700,00', status: 'Em encomenda'},
   {id: 2, email_usuario: 'a@a.com', valor: 'R$ 700,00', status: 'Em encomenda'},
   {id: 3, email_usuario: 'a@a.com', valor: 'R$ 700,00', status: 'Em encomenda'},
-  {id: 4, email_usuario: 'a@a.com', valor: 'R$ 700,00', status: 'Em encomenda'}
+  {id: 4, email_usuario: 'a@a.com', valor: 'R$ 700,00', status: 'Em encomenda'},
+  {id: 5, email_usuario: 'a@a.com', valor: 'R$ 700,00', status: 'Em encomenda'},
+  {id: 6, email_usuario: 'a@a.com', valor: 'R$ 700,00', status: 'Em encomenda'},
+  {id: 7, email_usuario: 'a@a.com', valor: 'R$ 700,00', status: 'Em encomenda'},
+  {id: 8, email_usuario: 'a@a.com', valor: 'R$ 700,00', status: 'Em encomenda'},
+  {id: 9, email_usuario: 'a@a.com', valor: 'R$ 700,00', status: 'Em encomenda'},
+  {id: 10, email_usuario: 'a@a.com', valor: 'R$ 700,00', status: 'Em encomenda'},
 ])
+
+
+
 </script>
 
 <template>
@@ -48,6 +57,11 @@ const produtos = ref([
 
     </table>
   </section>
+  <section class="lucro">
+    <h3>Lucro do dia</h3>
+    <p>R$ 3.000</p>
+    <img src="/src/assets/img/grafico.jpg" alt="grafico" height="200px">
+  </section>
 </template>
 <style scoped>
 .header-dias {
@@ -55,6 +69,7 @@ const produtos = ref([
   justify-content: center;
   text-align: center;
   width: 100%;
+  border: 1px solid black;
 }
 
 .dias-semana {
@@ -66,28 +81,29 @@ const produtos = ref([
 .tabela {
   display: grid;
   justify-items: center;
-  padding: 3rem;
+  padding: 2rem;
+  border: 1px solid black;
+
 }
 
 .tabela table {
-  border-collapse: collapse;
-  width: 70%;
+  width: 90%;
+  border: 2px solid black;
+  border-radius: 10px;
+
 }
 
 .tabela th,
 td {
   padding: 30px;
-  border-bottom: 2px solid #ddd;
-}
-.tabela h4 {
-  height: 4rem;
+  border-bottom: 5px solid #ddd;
 }
 
 .tabela tr:nth-child(even) {
   background-color: #f2f2f2;
 }
 .tabela tr:hover {
-  background-color: rgb(255, 200, 200);
+  background-color: rgb(207, 166, 166);
 }
 
 .button {
@@ -107,5 +123,12 @@ td {
   background-color: #ff0000;
   color: white;
   border: none;
+}
+.lucro {
+  display: grid;
+  padding: 2rem;
+  border: 1px solid black;
+  border-radius: 2rem;
+  width: 50%;
 }
 </style>
