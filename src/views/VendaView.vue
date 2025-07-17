@@ -57,10 +57,23 @@ const produtos = ref([
 
     </table>
   </section>
-  <section class="lucro">
+  <section class="grafico">
+    <section class="lucro">
     <h3>Lucro do dia</h3>
     <p>R$ 3.000</p>
-    <img src="/src/assets/img/grafico.jpg" alt="grafico" height="200px">
+    <section class="grafico-img"><img src="/src/assets/img/grafico-de-rosca.png" alt="grafico" height="200px"></section>
+  </section>
+  </section>
+
+  <section class="valor-info">
+    <section class="valores">
+      <h5>Total recebido</h5>
+      <p>100,00</p>
+    </section>
+    <section class="valores">
+      <h5>Total Despesas </h5>
+      <p>65,00</p>
+    </section>
   </section>
 </template>
 <style scoped>
@@ -124,11 +137,47 @@ td {
   color: white;
   border: none;
 }
+.grafico{
+ display: grid;
+ justify-items: center;
+ margin-bottom: 2rem;
+
+}
 .lucro {
   display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto auto auto;
   padding: 2rem;
-  border: 1px solid black;
+  border: 1px ;
   border-radius: 2rem;
   width: 50%;
+  background-color:  rgb(207, 166, 166);
+  font-size: 2rem;
 }
+.grafico-img{
+  display: grid;
+  justify-content: end;
+  grid-column: 2 / 3;
+  grid-row: 1 / 5;
+}
+
+.valores {
+  display: grid;
+
+  padding: 2.5rem;
+  border: 1px ;
+  border-radius: 2rem;
+  width: 25%;
+  background-color: rgb(156, 153, 153);
+  font-size: 2rem;
+  margin: 3rem;
+  justify-content: space-around
+}
+.valor-info {
+  display: grid;
+  
+}
+
+
+
 </style>
