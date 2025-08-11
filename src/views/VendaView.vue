@@ -70,9 +70,11 @@ const produtos = ref([
       <h5>Total recebido</h5>
       <p>100,00</p>
     </section>
-    <section class="valores">
+    <section class="valor-info">
+      <section class="valores">
       <h5>Total Despesas </h5>
       <p>65,00</p>
+    </section>
     </section>
   </section>
 </template>
@@ -95,13 +97,13 @@ const produtos = ref([
   display: grid;
   justify-items: center;
   padding: 2rem;
-  border: 1px solid black;
+  border: 1px;
 
 }
 
 .tabela table {
   width: 90%;
-  border: 2px solid black;
+  border: 2px solid ;
   border-radius: 10px;
 
 }
@@ -163,11 +165,10 @@ td {
 
 .valores {
   display: grid;
-
-  padding: 2.5rem;
+  padding: 5rem;
   border: 1px ;
   border-radius: 2rem;
-  width: 25%;
+  width: 100%;
   background-color: rgb(156, 153, 153);
   font-size: 2rem;
   margin: 3rem;
@@ -175,7 +176,9 @@ td {
 }
 .valor-info {
   display: grid;
-  
+  justify-content: space-around;
+
+
 }
 
 
