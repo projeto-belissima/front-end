@@ -4,14 +4,14 @@
 
 <template>
    <h1>Meu perfil</h1>
-   <div>
+   <div class="informacoes">
     <p>Nome completo:</p>
     <p>Apelido:</p>
   </div>
   <div>
     <h2>Preferências</h2>
     <p>Quais são suas categorias favoritas?</p>
-    <ul>
+    <ul class="informacoes">
       <li>curto</li>
       <li>midi</li>
       <li>longo</li>
@@ -22,7 +22,7 @@
   <div>
     <h2>Minhas medidas</h2>
     <p>Minhas Medições ajuda a simplificar o processo de encontrar a sua adaptação perfeita!</p>
-    <ul>
+    <ul class="infomacoes">
       <li>altura:</li>
       <li>peso</li>
       <li>busto:</li>
@@ -33,5 +33,15 @@
 </template>
 
 <style scoped>
+h1 {
+  font-size: 3rem;
+  font-family: var(--fonte-principal);
+  text-align: center;
+}
 
+.informacoes {
+  font-family: var(--fonte-principal);
+  font-size: medium;
+  padding: auto;
+}
 </style>
