@@ -1,19 +1,35 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useVestidoStore } from '@/stores/vestido'
 
-const vestidos = ref([
-  {id: 1, nome: "vestido midi com manga longa", mediaPreco: "109.90", img: "vestido-midi-marrom.png", alt: ""},
-  {id: 2, nome: "vestido longo verde florido", mediaPreco: "109.90", img: "vestido-longo-verde-florido.png", alt: ""},
-  {id: 3, nome: "vestido sarja marrom", mediaPreco: "109.90", img: "vestido-sarja-marrom.png", alt: ""},
-  {id: 4, nome: "vestido midi com manga longa", mediaPreco: "109.90", img: "vestido-midi-marrom.png", alt: ""},
-  {id: 5, nome: "vestido longo verde florido", mediaPreco: "109.90", img: "vestido-longo-verde-florido.png", alt: ""},
-  {id: 6, nome: "vestido sarja marrom", mediaPreco: "109.90", img: "vestido-sarja-marrom.png", alt: ""},
-  {id: 7, nome: "vestido midi com manga longa", mediaPreco: "109.90", img: "vestido-midi-marrom.png", alt: ""},
-  {id: 8, nome: "vestido longo verde florido", mediaPreco: "109.90", img: "vestido-longo-verde-florido.png", alt: ""},
-  {id: 9, nome: "vestido sarja marrom", mediaPreco: "109.90", img: "vestido-sarja-marrom.png", alt: ""},
-])
+const vestidoStore = useVestidoStore()
+const filtro = ref('')
 
-const imgUrl = (img) => new URL(`../assets/img/${img}`, import.meta.url).href;
+function buscarComFiltro() {
+  vestidoStore.buscarVestidos(1, filtro.value)
+}
+
+function irPagina(pagina) {
+  vestidoStore.buscarVestidos(pagina, filtro.value)
+}
+
+onMounted(() => {
+  vestidoStore.buscarVestidos()
+})
+
+// const vestidos = ref([
+//   {id: 1, nome: "vestido midi com manga longa", mediaPreco: "109.90", img: "vestido-midi-marrom.png", alt: ""},
+//   {id: 2, nome: "vestido longo verde florido", mediaPreco: "109.90", img: "vestido-longo-verde-florido.png", alt: ""},
+//   {id: 3, nome: "vestido sarja marrom", mediaPreco: "109.90", img: "vestido-sarja-marrom.png", alt: ""},
+//   {id: 4, nome: "vestido midi com manga longa", mediaPreco: "109.90", img: "vestido-midi-marrom.png", alt: ""},
+//   {id: 5, nome: "vestido longo verde florido", mediaPreco: "109.90", img: "vestido-longo-verde-florido.png", alt: ""},
+//   {id: 6, nome: "vestido sarja marrom", mediaPreco: "109.90", img: "vestido-sarja-marrom.png", alt: ""},
+//   {id: 7, nome: "vestido midi com manga longa", mediaPreco: "109.90", img: "vestido-midi-marrom.png", alt: ""},
+//   {id: 8, nome: "vestido longo verde florido", mediaPreco: "109.90", img: "vestido-longo-verde-florido.png", alt: ""},
+//   {id: 9, nome: "vestido sarja marrom", mediaPreco: "109.90", img: "vestido-sarja-marrom.png", alt: ""},
+// ])
+
+// const imgUrl = (img) => new URL(`../assets/img/${img}`, import.meta.url).href;
 </script>
 
 <template>
@@ -33,13 +49,31 @@ const imgUrl = (img) => new URL(`../assets/img/${img}`, import.meta.url).href;
 
   <h1>looks promo</h1>
 
-  <main class="amostragem-vestidos">
+  <input type="text" v-model="filtro" /><button @click="buscarComFiltro">Filtrar</button>
+  <ul>
+    <li v-for="vestido in vestidoStore.vestidos" :key="vestido.id">
+      {{ vestido.descricao }} ({{ vestido.id }})
+    </li>
+  </ul>
+
+  <div class="pagination">
+    <span
+      v-for="numeroPagina in vestidoStore.meta.total_pages"
+      :key="numeroPagina"
+      :class="numeroPagina == vestidoStore.meta.page ? 'selecionada' : ''"
+      @click="irPagina(numeroPagina)"
+    >
+      {{ numeroPagina }}
+    </span>
+  </div>
+
+  <!-- <main class="amostragem-vestidos">
       <div class="vestido-unidade" v-for="vestido in vestidos" :key="vestido.id">
         <img :src="imgUrl(vestido.img)" :alt="vestido.alt">
         <h6>{{ vestido.nome }}</h6>
         <p>R$ {{ vestido.mediaPreco.replace('.', ',') }}</p>
       </div>
-  </main>
+  </main> -->
 </template>
 
 <style scoped>
