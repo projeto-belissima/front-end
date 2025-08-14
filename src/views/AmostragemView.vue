@@ -16,64 +16,47 @@ function irPagina(pagina) {
 onMounted(() => {
   vestidoStore.buscarVestidos()
 })
-
-// const vestidos = ref([
-//   {id: 1, nome: "vestido midi com manga longa", mediaPreco: "109.90", img: "vestido-midi-marrom.png", alt: ""},
-//   {id: 2, nome: "vestido longo verde florido", mediaPreco: "109.90", img: "vestido-longo-verde-florido.png", alt: ""},
-//   {id: 3, nome: "vestido sarja marrom", mediaPreco: "109.90", img: "vestido-sarja-marrom.png", alt: ""},
-//   {id: 4, nome: "vestido midi com manga longa", mediaPreco: "109.90", img: "vestido-midi-marrom.png", alt: ""},
-//   {id: 5, nome: "vestido longo verde florido", mediaPreco: "109.90", img: "vestido-longo-verde-florido.png", alt: ""},
-//   {id: 6, nome: "vestido sarja marrom", mediaPreco: "109.90", img: "vestido-sarja-marrom.png", alt: ""},
-//   {id: 7, nome: "vestido midi com manga longa", mediaPreco: "109.90", img: "vestido-midi-marrom.png", alt: ""},
-//   {id: 8, nome: "vestido longo verde florido", mediaPreco: "109.90", img: "vestido-longo-verde-florido.png", alt: ""},
-//   {id: 9, nome: "vestido sarja marrom", mediaPreco: "109.90", img: "vestido-sarja-marrom.png", alt: ""},
-// ])
-
-// const imgUrl = (img) => new URL(`../assets/img/${img}`, import.meta.url).href;
 </script>
 
 <template>
   <section class="secao-guia">
     <div class="guia-paginas">
-      <p>página inicial</p>
+      <a href="./HomeView.vue">página inicial</a>
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right-short" viewBox="0 0 16 16">
         <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8"/>
       </svg>
-      <p><span>categoria</span></p>
+      <p><span>pesquisa</span></p>
     </div>
 
     <div class="guia-busca">
-      <p>ordenar e filtrar</p>
+      <input type="text" v-model="filtro" /><button @click="buscarComFiltro">Filtrar</button>
     </div>
   </section>
 
-  <h1>looks promo</h1>
+  <h1>acervo de vestidos</h1>
 
-  <input type="text" v-model="filtro" /><button @click="buscarComFiltro">Filtrar</button>
-  <ul>
-    <li v-for="vestido in vestidoStore.vestidos" :key="vestido.id">
-      {{ vestido.descricao }} ({{ vestido.id }})
-    </li>
-  </ul>
-
-  <div class="pagination">
-    <span
-      v-for="numeroPagina in vestidoStore.meta.total_pages"
-      :key="numeroPagina"
-      :class="numeroPagina == vestidoStore.meta.page ? 'selecionada' : ''"
-      @click="irPagina(numeroPagina)"
-    >
-      {{ numeroPagina }}
-    </span>
-  </div>
-
-  <!-- <main class="amostragem-vestidos">
-      <div class="vestido-unidade" v-for="vestido in vestidos" :key="vestido.id">
-        <img :src="imgUrl(vestido.img)" :alt="vestido.alt">
-        <h6>{{ vestido.nome }}</h6>
-        <p>R$ {{ vestido.mediaPreco.replace('.', ',') }}</p>
+  <main class="amostragem-vestidos">
+      <div class="vestido-unidade" v-for="vestido in vestidoStore.vestidos" :key="vestido.id">
+        <img :src="vestido.capa.url" :alt="vestido.descricao">
+        <h6>Vestido {{ vestido.descritivo }} {{ vestido.cor }}</h6>
+        <p>R$ {{ vestido.media_preco.replace('.', ',') }}</p>
       </div>
-  </main> -->
+  </main>
+
+  <div class="paginacao">
+    <p>você está na página {{ vestidoStore.meta.page }} de {{ vestidoStore.meta.total_pages }}</p>
+    <div>
+      <span
+        v-for="numeroPagina in vestidoStore.meta.total_pages"
+        :key="numeroPagina"
+        :class="numeroPagina == vestidoStore.meta.page ? 'selecionada' : ''"
+        @click="irPagina(numeroPagina)"
+      >
+        {{ numeroPagina }}
+      </span>
+    </div>
+
+  </div>
 </template>
 
 <style scoped>
@@ -94,18 +77,35 @@ onMounted(() => {
     padding-left: 2rem;
     font-weight: 300;
 
+    & a {
+      color: black;
+      text-decoration: none;
+    }
+
     & p > span {
       font-weight: 500;
     }
   }
 
   .guia-busca {
-    display: grid;
+    display: flex;
     justify-content: end;
+    gap: .5rem;
     padding: .7rem;
     padding-right: 2rem;
     font-weight: 300;
     box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);
+
+    & button {
+      font-family: var(--fonte-principal);
+      background-color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    & button:hover {
+      text-decoration: underline;
+    }
   }
 
   h1 {
@@ -138,5 +138,39 @@ onMounted(() => {
       font-weight: 500;
       font-size: 1.2rem;
     }
+  }
+
+  .paginacao {
+    display: grid;
+    grid-template-rows: auto auto;
+    row-gap: .5rem;
+    justify-content: center;
+    font-family: var(--fonte-principal);
+    margin-bottom: 1rem;
+
+    & div {
+      display: flex;
+      justify-content: center;
+    }
+
+    & div > span {
+      display: grid;
+      justify-items: center;
+      align-items: center;
+      height: 28px;
+      width: 30px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    & div > span:hover {
+      opacity: .8;
+    }
+  }
+
+  .selecionada {
+    background-color: black;
+    color: white;
+    font-weight: bolder;
   }
 </style>
