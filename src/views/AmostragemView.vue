@@ -37,7 +37,7 @@ onMounted(() => {
 
   <main class="amostragem-vestidos">
       <div class="vestido-unidade" v-for="vestido in vestidoStore.vestidos" :key="vestido.id">
-        <img :src="vestido.capa.url" :alt="vestido.descricao">
+        <img :src="vestido.capa[0].url" :alt="vestido.descricao">
         <h6>Vestido {{ vestido.descritivo }} {{ vestido.cor }}</h6>
         <p>R$ {{ vestido.media_preco.replace('.', ',') }}</p>
       </div>
