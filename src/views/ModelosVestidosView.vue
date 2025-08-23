@@ -1,10 +1,28 @@
-<script setup></script>
+<script setup>
+import { ref, onMounted } from 'vue'
+import { useVestidoStore } from '@/stores/vestido'
+
+const vestidoStore = useVestidoStore()
+const filtro = ref('')
+
+function buscarComFiltro() {
+  vestidoStore.buscarVestidos(1, filtro.value)
+}
+
+function irPagina(pagina) {
+  vestidoStore.buscarVestidos(pagina, filtro.value)
+}
+
+onMounted(() => {
+  vestidoStore.buscarVestidos()
+})
+</script>
 
 <template>
   <h1>Modelos de Vestido</h1>
 
   <div class="filtro">
-    <label for="filtro">Procurar:</label>
+    <button @click="buscarComFiltro">Procurar:</button>
     <input type="text" name="filtro" id="filtro">
   </div>
 
@@ -17,20 +35,12 @@
       <span class="coluna-imagem"> <p>Foto</p> </span>
     </div>
 
-    <div class="linha-secundaria">
-      <span> <p>0001</p> </span>
-      <span class="coluna-maior"> <p>Midi Liso</p> </span>
-      <span class="coluna-cor"> <p>Marrom...</p> </span>
-      <span> <p>R$ 200,00</p> </span>
-      <span class="coluna-imagem"> <p> <img src="../assets/img/vestido-midi-marrom.png" alt="Vestido"> </p> </span>
-    </div>
-
-    <div class="linha-secundaria">
-      <span> <p>0001</p> </span>
-      <span class="coluna-maior"> <p>Midi Liso</p> </span>
-      <span class="coluna-cor"> <p>Marrom, Preto, Branco, Cinza</p> </span>
-      <span> <p>R$ 200,00</p> </span>
-      <span class="coluna-imagem"> <p> <img src="../assets/img/vestido-midi-marrom.png" alt="Vestido"> </p> </span>
+    <div class="linha-secundaria" v-for="vestido in vestidoStore.vestidos" :key="vestido.id">
+      <span> <p>{{ vestido.id }}</p> </span>
+      <span class="coluna-maior"> <p>{{ vestido.descritivo }}</p> </span>
+      <span class="coluna-cor"> <p>{{ vestido.cores }}</p> </span>
+      <span> <p>{{ vestido.media_preco }}</p> </span>
+      <span class="coluna-imagem"> <p><img :src="vestido.capa[0].url" :alt="vestido.descricao"></p> </span>
     </div>
   </section>
 
@@ -38,7 +48,7 @@
     <div class="tabela-rodape-botao"> <button>Adicionar Vestido</button> </div>
 
     <nav class="menu-paginas">
-      <p class="menu-paginas-guia">1 de 5</p>
+      <p class="menu-paginas-guia">{{ vestidoStore.meta.page }} de {{ vestidoStore.meta.total_pages }}</p>
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left"
         viewBox="0 0 16 16">
         <path fill-rule="evenodd"
@@ -46,8 +56,14 @@
       </svg>
 
       <div class="paginacao">
-        <span class="selecionado">1</span>
-        <span>2</span>
+        <span
+          v-for="numeroPagina in vestidoStore.meta.total_pages"
+          :key="numeroPagina"
+          :class="numeroPagina == vestidoStore.meta.page ? 'selecionado' : ''"
+          @click="irPagina(numeroPagina)"
+        >
+          {{ numeroPagina }}
+        </span>
       </div>
 
       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right"
@@ -71,7 +87,18 @@
     gap: .5rem;
     justify-content: end;
     margin-right: 1rem;
-    font-family: var(--fonte-principal);
+
+    & button {
+      border: none;
+      background-color: white;
+      font-size: .9rem;
+      font-family: var(--fonte-principal);
+      cursor: pointer;
+    }
+
+    & button:hover {
+      text-decoration: underline;
+    }
 
     & input {
       border: 1px solid black;
