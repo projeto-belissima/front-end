@@ -12,24 +12,24 @@ function selecionarFoto(event) {
 }
 </script>
 
-
 <template>
-  <h1>Meu perfil</h1>
+  <h1>meu perfil</h1>
 
   <div class="perfil-container">
     <div class="infos">
-      <p>Nome completo:</p>
-      <p>Apelido:</p>
+      <p>nome completo:</p>
+      <p>apelido:</p>
     </div>
     <div class="foto-container">
       <label for="upload">
-          <img :src="fotoPerfil" alt="Imagem de perfil" class="foto" />
+        <img :src="fotoPerfil" alt="Imagem de perfil" class="foto" />
       </label>
       <input type="file" id="upload" accept="image/*" @change="selecionarFoto" hidden />
       <span class="dica">Clique na foto para alterar</span>
     </div>
   </div>
-  <div class="informacoes">
+
+  <!--<div class="informacoes">
     <h2>Preferências</h2>
     <p>Quais são suas categorias favoritas?</p>
     <ul class="informacoes">
@@ -39,39 +39,70 @@ function selecionarFoto(event) {
       <li>noiva</li>
       <li>festa</li>
     </ul>
-  </div>
-  <div>
+  </div>-->
+
+  <div class="informacoes">
     <h2>Minhas medidas</h2>
     <p>Minhas Medições ajuda a simplificar o processo de encontrar a sua adaptação perfeita!</p>
-    <ul class="informacoes">
-      <li>altura:</li>
-      <li>peso</li>
-      <li>busto:</li>
-      <li>cintura:</li>
-      <li>quadril:</li>
-    </ul>
+    
+    <form>
+      <div>
+        <label>altura:</label>
+        <input type="number">
+      </div>
+      <div>
+        <label>peso</label>
+        <input type="number">
+      </div>
+      <div>
+        <label>busto:</label>
+        <input type="number">
+      </div>
+      <div>
+        <label>cintura:</label>
+        <input type="number">
+      </div>
+      <div>
+        <label>quadril:</label>
+        <input type="number">
+      </div>
+    </form>
   </div>
 </template>
 
 <style scoped>
 h1 {
-  font-size: 3rem;
+  font-size: 2rem;
   font-family: var(--fonte-principal);
   text-align: center;
+  margin-top: 1.5rem;
 }
 
-.informacoes {
+div.informacoes {
+  display: grid;
+  width: 90%;
+  justify-self: center;
   font-family: var(--fonte-corpo);
   font-size: medium;
-  padding: auto;
+  margin-top: 2rem;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+input {
+  border: none;
 }
 
 .perfil-container {
-  display: flex;
-  align-items: center;
-  gap: 50rem;
-  margin-top: 1rem;
-  margin-left: 6rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 90%;
+  justify-self: center;
 }
 
 .foto-container {
@@ -91,7 +122,7 @@ h1 {
 
 .foto-container .foto:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 15px rgba(0,0,0,0,3);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0, 3);
 }
 
 .foto-container .dica {
