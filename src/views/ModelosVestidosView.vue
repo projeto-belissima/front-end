@@ -39,7 +39,7 @@ onMounted(() => {
       <span> <p>{{ vestido.id }}</p> </span>
       <span class="coluna-maior"> <p>{{ vestido.descritivo }}</p> </span>
       <span class="coluna-cor"> <p>{{ vestido.cores }}</p> </span>
-      <span> <p>{{ vestido.media_preco }}</p> </span>
+      <span> <p>R$ {{ vestido.media_preco.replace('.', ',') }}</p> </span>
       <span class="coluna-imagem"> <p><img :src="vestido.capa[0].url" :alt="vestido.descricao"></p> </span>
     </div>
   </section>
