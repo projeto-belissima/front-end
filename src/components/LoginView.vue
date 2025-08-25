@@ -3,46 +3,48 @@
 <template>
   <main class="box-login-page">
     <section class="login-section">
-      <h2>Campo de Login</h2>
+      <h2>campo de login</h2>
       <div>
-          <label for="user-name">Nome de usuário:</label>
+          <label for="user-name">nome de usuário:</label>
           <input type="text" name="user-name" id="user-name">
       </div>
 
       <div>
-        <label for="user-password">Senha:</label>
+        <label for="user-password">senha:</label>
         <input type="password" name="user-password" id="user-password">
       </div>
 
       <button>ENTRAR</button>
 
       <div>
-        <p><a>Esqueceu a senha?</a></p>
-        <p><Router-Link to="/cadastro">Fazer o cadastro</Router-Link></p>
+        <p><a>esqueceu a senha?</a></p>
+        <p><Router-Link to="/cadastro">fazer o cadastro</Router-Link></p>
       </div>
     </section>
   </main>
 </template>
 
 <style scoped>
- .box-login-page {
-    display: grid;
-    padding: 5rem 2rem;
-    justify-items: center;
-    align-items: center;
+  .box-login-page {
+    width: 100vw;
+    position: fixed;
+    top: 30px;
+    z-index: 999;
+    justify-content: center;
   }
 
   .login-section {
     display: grid;
     justify-content: center;
     align-content: center;
-    font-family: var(--fonte-principal);
     row-gap: 2rem;
+    padding: 1.5rem;
+    width: 350px;
+    font-family: var(--fonte-principal);
     color: #000;
     background-color: #f2f2f2;
     border-radius: 5px;
-    padding: 3rem;
-    border: 1px solid black;
+    box-shadow: 2px 2px 4px 3px rgba(0, 0, 0, .4);
   }
 
   .login-section h2, .login-section div p {
@@ -61,7 +63,6 @@
     background-color: var(--vt-c-transparent);
     color: #000;
     border-radius: 6px;
-    width: 20vw;
   }
 
   .login-section div input:focus {
