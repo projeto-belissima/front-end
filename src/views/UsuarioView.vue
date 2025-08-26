@@ -10,6 +10,12 @@ function selecionarFoto(event) {
     fotoPerfil.value = URL.createObjectURL(arquivo)
   }
 }
+
+const editando = ref(false)
+
+function alternarEdicao() {
+  editando.value = !editando.value
+}
 </script>
 
 <template>
@@ -25,46 +31,37 @@ function selecionarFoto(event) {
         <img :src="fotoPerfil" alt="Imagem de perfil" class="foto" />
       </label>
       <input type="file" id="upload" accept="image/*" @change="selecionarFoto" hidden />
-      <span class="dica">Clique na foto para alterar</span>
+      <span class="dica">clique na foto para alterar</span>
     </div>
   </div>
 
-  <!--<div class="informacoes">
-    <h2>Preferências</h2>
-    <p>Quais são suas categorias favoritas?</p>
-    <ul class="informacoes">
-      <li>curto</li>
-      <li>midi</li>
-      <li>longo</li>
-      <li>noiva</li>
-      <li>festa</li>
-    </ul>
-  </div>-->
-
   <div class="informacoes">
-    <h2>Minhas medidas</h2>
-    <p>Minhas Medições ajuda a simplificar o processo de encontrar a sua adaptação perfeita!</p>
+    <h2>minhas medidas</h2>
+    <p>minhas medições ajuda a simplificar o processo de encontrar a sua adaptação perfeita!</p>
     
-    <form>
+    <form @submit.prevent="alternarEdicao">
       <div>
         <label>altura:</label>
-        <input type="number">
+        <input type="number" :disabled="!editando" />
       </div>
       <div>
-        <label>peso</label>
-        <input type="number">
+        <label>peso:</label>
+        <input type="number" :disabled="!editando" />
       </div>
       <div>
         <label>busto:</label>
-        <input type="number">
+        <input type="number" :disabled="!editando" />
       </div>
       <div>
         <label>cintura:</label>
-        <input type="number">
+        <input type="number" :disabled="!editando" />
       </div>
       <div>
         <label>quadril:</label>
-        <input type="number">
+        <input type="number" :disabled="!editando" />
+      </div>
+      <div>
+        <button type="submit">{{ editando ? 'salvar' : 'editar' }}</button>
       </div>
     </form>
   </div>
@@ -96,6 +93,13 @@ form {
 
 input {
   border: none;
+  margin-left: 6px;
+}
+
+input:disabled {
+  background-color: #f0f0f0;
+  color: #777;
+  cursor: not-allowed;
 }
 
 .perfil-container {
@@ -137,5 +141,12 @@ input {
   font-size: 1.25rem;
   font-family: var(--fonte-corpo);
   margin: 0.3rem 0;
+}
+
+button {
+  width: 6rem;
+  height: 1.5rem;
+  border-radius: 5px;
+  border: 1px solid black;
 }
 </style>
