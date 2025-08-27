@@ -3,6 +3,12 @@
 <template>
   <main class="box-login-page">
     <section class="login-section">
+      <button class="botao-saida">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+          <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+        </svg>
+      </button>
+
       <h2>campo de login</h2>
       <div>
           <label for="user-name">nome de usuário:</label>
@@ -14,7 +20,7 @@
         <input type="password" name="user-password" id="user-password">
       </div>
 
-      <button>ENTRAR</button>
+      <button class="botao-envio">ENTRAR</button>
 
       <div>
         <p><a>esqueceu a senha?</a></p>
@@ -26,16 +32,21 @@
 
 <style scoped>
   .box-login-page {
-    width: 100vw;
-    position: fixed;
-    top: 30px;
-    z-index: 999;
+    display: grid;
+    align-items: center;
     justify-content: center;
+    position: fixed;
+    top: 0;
+    z-index: 999;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, .6);
   }
 
   .login-section {
     display: grid;
     justify-content: center;
+    justify-self: center;
     align-content: center;
     row-gap: 2rem;
     padding: 1.5rem;
@@ -44,7 +55,16 @@
     color: #000;
     background-color: #f2f2f2;
     border-radius: 5px;
-    box-shadow: 2px 2px 4px 3px rgba(0, 0, 0, .4);
+    box-shadow: 0px 0px 4px 3px rgba(0, 0, 0, .4);
+  }
+
+  .botao-saida {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    border: none;
+    cursor: pointer;
   }
 
   .login-section h2, .login-section div p {
@@ -70,7 +90,7 @@
     border: 2px solid;
   }
 
-  .login-section button {
+  .botao-envio {
     padding: .5rem;
     border: none;
     border-radius: 6px;
@@ -79,7 +99,7 @@
     color: #fff;
   }
 
-  .login-section button:hover {
+  .botao-envio:hover {
     background-color: #000;
     color: #fff;
     cursor: pointer;
