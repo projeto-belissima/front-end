@@ -1,3 +1,7 @@
+<script setup>
+import LoginView from './LoginView.vue'
+</script>
+
 <template>
   <header>
     <div class="cabecalho-titulo">
@@ -14,6 +18,8 @@
       </svg>
     </div>
   </header>
+
+  <LoginView />
 </template>
 
 <style scoped>

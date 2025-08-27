@@ -1,6 +1,5 @@
 <script setup>
 import { ref, onMounted } from 'vue'
-import LoginView from '../components/LoginView.vue'
 import Swiper from 'swiper/bundle';
 
 import 'swiper/css/bundle';
@@ -66,7 +65,6 @@ onMounted(() => {
 </script>
 
 <template>
-  <LoginView />
   <main>
     <section class="secao-stories">
       <div class="secao-stories-story" v-for="story in stories" :key="story.id">
