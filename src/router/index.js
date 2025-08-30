@@ -14,11 +14,6 @@ const router = createRouter({
       component: () => import('../views/CadastroView.vue'),
     },
     {
-      path: '/login',
-      name: 'login',
-      component: () => import('../views/LoginView.vue'),
-    },
-    {
       path: '/menu-funcionario',
       name: 'menu-funcionario',
       component: () => import('../views/MenuFuncionarioView.vue'),
