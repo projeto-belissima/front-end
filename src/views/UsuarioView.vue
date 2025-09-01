@@ -91,9 +91,16 @@ form {
   margin-top: 1rem;
 }
 
+form div {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
 input {
   border: none;
-  margin-left: 6px;
+  flex: 1;
+  max-width: 300px;
 }
 
 input:disabled {
@@ -115,8 +122,9 @@ input:disabled {
 }
 
 .foto-container .foto {
-  width: 130px;
-  height: 130px;
+  width: 100%;
+  max-width: 150px;
+  height: auto;
   border-radius: 50%;
   object-fit: cover;
   cursor: pointer;
@@ -137,6 +145,17 @@ input:disabled {
   margin-top: 0.5rem;
 }
 
+@media (max-width: 768px) {
+  .perfil-container {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+
+  .foto-container {
+    text-align: center;
+  }
+}
+
 .infos p {
   font-size: 1.25rem;
   font-family: var(--fonte-corpo);
@@ -144,9 +163,42 @@ input:disabled {
 }
 
 button {
-  width: 6rem;
-  height: 1.5rem;
+  padding: 0.5rem 1rem;
   border-radius: 5px;
   border: 1px solid black;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #f5f5f5;
+}
+
+
+@media (max-width: 600px) {
+  form div {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  input {
+    width: 100%;
+    max-width: none;
+    margin-left: 0;
+  }
+
+  button {
+    align-self: center;
+  }
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.5rem;
+  }
+
+  .infos p {
+    font-size: 1rem;
+  }
 }
 </style>
