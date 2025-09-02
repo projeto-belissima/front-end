@@ -68,7 +68,7 @@
     text-align: center;
     font-family: var(--fonte-principal);
     font-size: 2rem;
-    margin-bottom: 30px;
+    margin: 30px 0;
   }
 
   .container {
@@ -91,24 +91,6 @@
     gap: 10px;
     margin-bottom: 15px;
   }
-  
-@media (min-width: 992px) {
-  section > div:nth-child(1),
-  section > div:nth-child(2) {
-    display: grid;
-    grid-template-columns: 150px 1fr; /* Label menor, input maior */
-    align-items: center;
-    gap: 1rem;
-  }
-
-  section > div:nth-child(5),
-  section > div:nth-child(6) {
-    display: grid;
-    grid-template-columns: 1fr 120px;
-    gap: 1rem;
-    align-items: center;
-  }
-}
   
   label {
     font-size: 1.1rem;
@@ -142,6 +124,8 @@
   }
 
   button {
+    display: block;
+    margin: 0 auto;
     padding: 12px 20px;
     font-size: 1rem;
     background: linear-gradient(135deg, var(--cor-marrom-1), #5c3c1f);
@@ -161,9 +145,9 @@
   }
 
   @media (max-width: 768px) {
-    .container {
-      margin: 20px;
-      padding: 20px;
-    }
+  .container {
+    border-radius: 0;
   }
+}
+
 </style>
