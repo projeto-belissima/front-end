@@ -42,23 +42,23 @@ function alternarEdicao() {
     <form @submit.prevent="alternarEdicao">
       <div>
         <label>altura:</label>
-        <input type="number" :disabled="!editando" />
+        <input type="text" :disabled="!editando" />
       </div>
       <div>
         <label>peso:</label>
-        <input type="number" :disabled="!editando" />
+        <input type="text" :disabled="!editando" />
       </div>
       <div>
         <label>busto:</label>
-        <input type="number" :disabled="!editando" />
+        <input type="text" :disabled="!editando" />
       </div>
       <div>
         <label>cintura:</label>
-        <input type="number" :disabled="!editando" />
+        <input type="text" :disabled="!editando" />
       </div>
       <div>
         <label>quadril:</label>
-        <input type="number" :disabled="!editando" />
+        <input type="text" :disabled="!editando" />
       </div>
       <div>
         <button type="submit">{{ editando ? 'salvar' : 'editar' }}</button>
