@@ -18,14 +18,15 @@ const imgUrl = (img) => new URL(`../assets/img/${img}`, import.meta.url).href
 
 <template>
   <section class="vestido">
+
     <img :src="imgUrl(vestido.img)" />
     <div class="informacoes">
       <h5 class="nome-produto">{{ vestido.nome }}</h5>
       <p class="descricao">{{ vestido.descricao }}</p>
       <h5 class="valor-produto">R$ {{ vestido.mediaPreco.replace('.', ',') }}</h5>
-      <h5 class="cores">Cor: {{ vestido.cores }}</h5>
+      <h5 class="cores">cor: {{ vestido.cores }}</h5>
       <div class="selecao-cor">
-        <div class="button"><button class="azul botao-cor-selecionado"></button></div>
+        <div class="button botao-cor-selecionado"><button class="azul"></button></div>
         <div class="button"><button class="marrom"></button></div>
         <div class="button"><button class="rosa"></button></div>
       </div>
@@ -38,7 +39,8 @@ const imgUrl = (img) => new URL(`../assets/img/${img}`, import.meta.url).href
 .vestido {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  margin-top: 2rem;
+  padding: 2rem 1rem 1rem;
+  gap: 1rem;
 
   & img {
     justify-self: center;
@@ -72,6 +74,7 @@ const imgUrl = (img) => new URL(`../assets/img/${img}`, import.meta.url).href
   font-family: var(--fonte-principal);
   font-size: 1rem;
   font-weight: 300;
+  margin: .5rem 0;
 }
 
 .selecao-cor {
@@ -82,10 +85,13 @@ const imgUrl = (img) => new URL(`../assets/img/${img}`, import.meta.url).href
     display: grid;
     justify-content: center;
     align-items: center;
-    height: 25px;
-    width: 40px;
-    border: 1px solid gray;
+    height: fit-content;
+    border: 2px solid var(--cor-cinza-auxiliar);
     border-radius: 15px;
+  }
+
+  & div.botao-cor-selecionado {
+    box-shadow: 0 0 4px 3px rgba(0, 0, 0, 0.6);
   }
 
   & div > button {
@@ -93,6 +99,7 @@ const imgUrl = (img) => new URL(`../assets/img/${img}`, import.meta.url).href
     width: 35px;
     border-radius: 15px;
     border: none;
+    cursor: pointer;
   }
 }
 
@@ -104,5 +111,30 @@ const imgUrl = (img) => new URL(`../assets/img/${img}`, import.meta.url).href
 }
 .rosa {
   background-color: palevioletred;
+}
+
+@media(max-width: 840px) {
+  .vestido {
+    grid-template-columns: 1fr;
+
+    & div.informacoes {
+      padding: 0;
+    }
+  }
+}
+
+@media(max-width: 430px) {
+  .vestido {
+    padding: 0;
+
+    & img {
+      width: 100vw;
+    }
+
+    & div.informacoes {
+      width: 100vw;
+      padding: 0 1rem;
+    }
+  }
 }
 </style>
