@@ -5,7 +5,7 @@ const vestido = ref({
   id: 1,
   nome: 'vestido midi com manga longa',
   descricao:
-    'vestido midi preto de manga longa com decote ombro a ombro em malha justinha com caimento encorpado, elastano e fenda na perna.',
+    'vestido midi preto de manga longa com decote ombro a ombro em malha justinha com caimento encorpado, elastano e fenda na perna',
   mediaPreco: '109.90',
   img: 'vestido-midi-marrom.png',
   alt: '',
