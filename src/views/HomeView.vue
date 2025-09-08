@@ -5,10 +5,10 @@ import Swiper from 'swiper/bundle';
 import 'swiper/css/bundle';
 
 const stories = ref([
-  { id: 1, nome: "Novidades", img: "quadrado-marrom.png", alt: "" },
-  { id: 2, nome: "Longos", img: "quadrado-marrom.png", alt: "" },
-  { id: 3, nome: "Midis", img: "quadrado-marrom.png", alt: "" },
-  { id: 4, nome: "Curtos", img: "quadrado-marrom.png", alt: "" },
+  { id: 1, nome: "novidades", img: "quadrado-marrom.png", alt: "" },
+  { id: 2, nome: "longos", img: "quadrado-marrom.png", alt: "" },
+  { id: 3, nome: "midis", img: "quadrado-marrom.png", alt: "" },
+  { id: 4, nome: "curtos", img: "quadrado-marrom.png", alt: "" },
 ])
 
 const destaques = ref([
@@ -21,6 +21,14 @@ const destaques = ref([
   { id: 7, nome: "vestido midi com manga longa", mediaPreco: "109.90", img: "vestido-midi-marrom.png", alt: "" },
   { id: 8, nome: "vestido longo verde florido", mediaPreco: "109.90", img: "vestido-longo-verde-florido.png", alt: "" },
   { id: 9, nome: "vestido sarja marrom", mediaPreco: "109.90", img: "vestido-sarja-marrom.png", alt: "" },
+]);
+
+const colaboradores = ref([
+  {id: 1, nome: 'Ester', img: 'ester.png', github: 'https://github.com/antuneseds'},
+  {id: 2, nome: 'Renata', img: 'renata.png', github: 'https://github.com/ReehLimas'},
+  {id: 3, nome: 'Ruama', img: 'ruama.png', github: 'https://github.com/bernardesraischruama'},
+  {id: 4, nome: 'Vinícius', img: 'vinicius.png', github: 'https://github.com/ViniRech'},
+  {id: 5, nome: 'Vitória', img: 'vitoria.png', github: 'https://github.com/fernandapadilha'}
 ])
 
 const imgUrl = (img) => new URL(`../assets/img/${img}`, import.meta.url).href;
@@ -75,8 +83,8 @@ onMounted(() => {
 
     <section class="secao-carrossel">
       <article class="secao-carrossel-apresentacao">
-        <h2>Aproveitando nosso querido outono</h2>
-        <h3>Confira já!</h3>
+        <h2>aproveitando nosso querido outono</h2>
+        <h3>confira já!</h3>
       </article>
 
       <div class="swiper">
@@ -108,32 +116,14 @@ onMounted(() => {
     </section>
 
     <section class="secao-colaboradores">
-      <h2>Quem somos nós?</h2>
+      <h2>quem somos nós?</h2>
 
       <div class="colaboradores-img">
-        <div>
-          <img src="/src/assets/img/ester.png" alt="Ester">
-          <p>Ester</p>
-        </div>
-
-        <div>
-          <img src="/src/assets/img/renata.png" alt="Renata">
-          <p>Renata</p>
-        </div>
-
-        <div>
-          <img src="/src/assets/img/ruama.png" alt="Ruama">
-          <p>Ruama</p>
-        </div>
-
-        <div>
-          <img src="/src/assets/img/vinicius.png" alt="Vinícius">
-          <p>Vinícius</p>
-        </div>
-
-        <div>
-          <img src="/src/assets/img/vitoria.png" alt="Vitória">
-          <p>Vitória</p>
+        <div v-for="colaborador in colaboradores" :key="colaborador.id">
+          <a :href="colaborador.github">
+            <img :src="imgUrl(colaborador.img)" :alt="colaborador.nome">
+            <p>{{ colaborador.nome }}</p>
+          </a>
         </div>
       </div>
     </section>
@@ -248,6 +238,11 @@ onMounted(() => {
   margin-top: 3rem;
   justify-self: center;
   gap: 1rem;
+
+  & a {
+    text-decoration: none;
+    color: black;
+  }
 
   & img {
     width: 10rem;
