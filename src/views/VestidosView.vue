@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue'
+import { useVestidoStore } from '@/stores/vestido'
 
+const vestidoStore = useVestidoStore();
 const vestido = ref({
   id: 1,
   nome: 'vestido midi com manga longa',
@@ -17,6 +19,7 @@ const imgUrl = (img) => new URL(`../assets/img/${img}`, import.meta.url).href
 </script>
 
 <template>
+  {{ vestidoStore }}
   <section class="vestido">
 
     <img :src="imgUrl(vestido.img)" />
