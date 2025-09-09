@@ -1,6 +1,13 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { useVestidoStore } from '@/stores/vestido'
+
+const router = useRouter();
+
+function visualizar(id) {
+  router.push(`/vestido/${id}`)
+}
 
 const vestidoStore = useVestidoStore()
 const filtro = ref('')
@@ -36,7 +43,7 @@ onMounted(() => {
   <h1>acervo de vestidos</h1>
 
   <main class="amostragem-vestidos">
-      <div class="vestido-unidade" v-for="vestido in vestidoStore.vestidos" :key="vestido.id">
+      <div @click="visualizar(vestido.id)" class="vestido-unidade" v-for="vestido in vestidoStore.vestidos" :key="vestido.id">
         <img :src="vestido.capa[0].url" :alt="vestido.descricao">
         <h6>Vestido {{ vestido.descritivo }} {{ vestido.cor }}</h6>
         <p>R$ {{ vestido.media_preco.replace('.', ',') }}</p>
@@ -132,6 +139,7 @@ onMounted(() => {
     & h6 {
       font-weight: 400;
       font-size: .8rem;
+      text-transform: lowercase;
     }
 
     & p {

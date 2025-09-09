@@ -1,37 +1,30 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useVestidoStore } from '@/stores/vestido'
 
+const props = defineProps(['id']);
+const vestido = ref({});
 const vestidoStore = useVestidoStore();
-const vestido = ref({
-  id: 1,
-  nome: 'vestido midi com manga longa',
-  descricao:
-    'vestido midi preto de manga longa com decote ombro a ombro em malha justinha com caimento encorpado, elastano e fenda na perna',
-  mediaPreco: '109.90',
-  img: 'vestido-midi-marrom.png',
-  alt: '',
-  cores: 'marrom',
-  medidas: '70cm'
-})
 
-const imgUrl = (img) => new URL(`../assets/img/${img}`, import.meta.url).href
+onMounted(() => {
+  vestidoStore.buscarVestidos()
+  vestido.value = vestidoStore.vestidos.pegarModeloPorId(props.id)
+})
 </script>
 
 <template>
-  {{ vestidoStore }}
-  <section class="vestido">
+  <section class="vestido" v-for="vestido in vestidoStore.vestidos" :key="vestido.id">
 
-    <img :src="imgUrl(vestido.img)" />
+    <img :src="vestido.capa[0].url" />
     <div class="informacoes">
-      <h5 class="nome-produto">{{ vestido.nome }}</h5>
+      <h5 class="nome-produto">{{ vestido.descritivo }}</h5>
       <p class="descricao">{{ vestido.descricao }}</p>
-      <h5 class="valor-produto">R$ {{ vestido.mediaPreco.replace('.', ',') }}</h5>
-      <h5 class="cores">cor: {{ vestido.cores }}</h5>
+      <h5 class="valor-produto">R$ {{ vestido.media_preco.replace('.', ',') }}</h5>
+      <h5 class="cores">cor: {{ vestido.cores[0].nome }}</h5>
       <div class="selecao-cor">
-        <div class="button botao-cor-selecionado"><button class="azul"></button></div>
-        <div class="button"><button class="marrom"></button></div>
-        <div class="button"><button class="rosa"></button></div>
+        <div v-for="cor in vestido.cores" :key="cor.id" class="button">
+          <button :style="{ 'background-color': cor.hex }"></button>
+        </div>
       </div>
     </div>
 
@@ -47,6 +40,7 @@ const imgUrl = (img) => new URL(`../assets/img/${img}`, import.meta.url).href
 
   & img {
     justify-self: center;
+    width: 40%;
   }
 
   & div.informacoes {
@@ -65,6 +59,7 @@ const imgUrl = (img) => new URL(`../assets/img/${img}`, import.meta.url).href
   font-size: 1rem;
   font-weight: 300;
   margin-top: 0.7rem;
+  text-transform: lowercase;
 }
 
 .valor-produto {
@@ -78,6 +73,7 @@ const imgUrl = (img) => new URL(`../assets/img/${img}`, import.meta.url).href
   font-size: 1rem;
   font-weight: 300;
   margin: .5rem 0;
+  text-transform: lowercase;
 }
 
 .selecao-cor {
@@ -104,16 +100,6 @@ const imgUrl = (img) => new URL(`../assets/img/${img}`, import.meta.url).href
     border: none;
     cursor: pointer;
   }
-}
-
-.azul {
-  background-color: blue;
-}
-.marrom {
-  background-color: brown;
-}
-.rosa {
-  background-color: palevioletred;
 }
 
 @media(max-width: 840px) {
