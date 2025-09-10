@@ -6,14 +6,14 @@ const props = defineProps(['id']);
 const vestido = ref({});
 const vestidoStore = useVestidoStore();
 
-onMounted(() => {
-  vestidoStore.buscarVestidos()
-  vestido.value = vestidoStore.vestidos.pegarModeloPorId(props.id)
+onMounted(async () => {
+  await vestidoStore.buscarVestidos()
+  vestido.value = vestidoStore.pegarVestidoPorId(props.id)
 })
 </script>
 
 <template>
-  <section class="vestido" v-for="vestido in vestidoStore.vestidos" :key="vestido.id">
+  <section class="vestido" v-if="vestido">
 
     <img :src="vestido.capa[0].url" />
     <div class="informacoes">
