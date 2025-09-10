@@ -79,39 +79,47 @@ const produtos = ref([
   </section>
 </template>
 <style scoped>
+
 .header-dias {
   display: grid;
   justify-content: center;
   text-align: center;
   width: 100%;
-  border: 1px solid black;
-}
-
-.dias-semana {
-  display: flex;
-  list-style-type: none;
-  gap: 4rem;
   padding: 1rem;
 }
-.tabela {
-  display: grid;
-  justify-items: center;
-  padding: 2rem;
-  border: 1px;
 
+
+.dias-semana {
+   display: flex;
+  list-style-type: none;
+  gap: 2rem;
+  padding: 1rem;
+  font-size: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.tabela {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+  overflow-x: auto;
 }
 
 .tabela table {
-  width: 90%;
-  border: 2px solid ;
+  width: 100%;
+  max-width: 1000px;
+  border: 2px solid black;
   border-radius: 10px;
+  border-collapse: collapse;
 
 }
 
 .tabela th,
 td {
-  padding: 30px;
-  border-bottom: 5px solid #ddd;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
 }
 
 .tabela tr:nth-child(even) {
@@ -125,12 +133,15 @@ td {
   background-color: #ff0000;
   color: white;
   border-radius: 30px;
-  border: #ff0000;
+  border: none;
+  padding: 0.5rem 1rem;
 }
+
 .options {
-  height: 1.5rem;
-  width: 30rem;
-  border-radius: 1.5px;
+  height: 2rem;
+  width: 100%;
+  max-width: 300px;
+  border-radius: 4px;
   border: none;
 }
 
@@ -140,47 +151,60 @@ td {
   border: none;
 }
 .grafico{
- display: grid;
- justify-items: center;
- margin-bottom: 2rem;
-
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
 }
 .lucro {
   display: grid;
-  grid-template-columns: auto auto;
-  grid-template-rows: auto auto auto auto;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
   padding: 2rem;
-  border: 1px ;
   border-radius: 2rem;
-  width: 50%;
-  background-color:  rgb(207, 166, 166);
-  font-size: 2rem;
-}
-.grafico-img{
-  display: grid;
-  justify-content: end;
-  grid-column: 2 / 3;
-  grid-row: 1 / 5;
+  width: 100%;
+  max-width: 700px;
+  background-color: rgb(207, 166, 166);
+  font-size: 1.5rem;
 }
 
 .valores {
-  display: grid;
-  padding: 5rem;
-  border: 1px ;
-  border-radius: 2rem;
-  width: 100%;
   background-color: rgb(156, 153, 153);
-  font-size: 2rem;
-  margin: 3rem;
-  justify-content: space-around
+  padding: 2rem;
+  border-radius: 2rem;
+  font-size: 1.5rem;
+  margin: 1rem;
+  width: 100%;
+  max-width: 500px;
+  text-align: center;
 }
 .valor-info {
-  display: grid;
-  justify-content: space-around;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 2rem;
+  gap: 1rem;
 
 
 }
-
+.grafico-img {
+  grid-column: 2 / 3;
+  grid-row: 1 / 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@media (max-width: 768px) {
+  .lucro {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+}
+.grafico-img {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
 
 
 </style>
