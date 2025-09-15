@@ -14,9 +14,34 @@ const router = createRouter({
       component: () => import('../views/CadastroView.vue'),
     },
     {
-      path: '/login',
-      name: 'login',
-      component: () => import('../views/LoginView.vue'),
+      path: '/menu-funcionario',
+      name: 'menu-funcionario',
+      component: () => import('../views/MenuFuncionarioView.vue'),
+    },
+    {
+      path: '/modelos-vestidos',
+      name: 'modelos-vestidos',
+      component: () => import('../views/ModelosVestidosView.vue')
+    },
+    {
+      path: '/selecao-vestidos',
+      name: 'amostragem',
+      component: () => import('../views/AmostragemView.vue'),
+    },
+    {
+      path: '/vendas',
+      name: 'vendas',
+      component: () => import('../views/VendaView.vue'),
+    },
+    {
+      path: '/perfil-usuario',
+      name: 'perfil-usuario',
+      component: () => import('../views/UsuarioView.vue'),
+    },
+    {
+      path: '/vestido',
+      name: 'vestido',
+      component: () => import('../views/VestidosView.vue'),
     },
   ],
 })

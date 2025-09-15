@@ -68,7 +68,7 @@
     text-align: center;
     font-family: var(--fonte-principal);
     font-size: 2rem;
-    margin-bottom: 30px;
+    margin: 30px 0;
   }
 
   .container {
@@ -82,7 +82,6 @@
     width: 100%;
     max-width: 600px;
     font-family: var(--fonte-principal);
-    /* box-shadow: 0 4px 12px rgba(0,0,0,0.1);*/
   }
 
   .container div,
@@ -92,7 +91,7 @@
     gap: 10px;
     margin-bottom: 15px;
   }
-
+  
   label {
     font-size: 1.1rem;
     font-weight: 500;
@@ -100,10 +99,12 @@
   }
 
   input {
+    width: 100%;
     padding: 10px;
     font-size: 1rem;
     border: 1px solid #ccc;
     border-radius: 6px;
+     box-sizing: border-box;
     transition: border-color 0.2s ease;
   }
 
@@ -123,6 +124,8 @@
   }
 
   button {
+    display: block;
+    margin: 0 auto;
     padding: 12px 20px;
     font-size: 1rem;
     background: linear-gradient(135deg, var(--cor-marrom-1), #5c3c1f);
@@ -142,9 +145,9 @@
   }
 
   @media (max-width: 768px) {
-    .container {
-      margin: 20px;
-      padding: 20px;
-    }
+  .container {
+    border-radius: 0;
   }
+}
+
 </style>
