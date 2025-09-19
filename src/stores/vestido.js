@@ -22,12 +22,13 @@ export const useVestidoStore = defineStore('vestido', () => {
 
   function pegarVestidoPorId(id) {
     // Modelo universal
-    for (let vestido of vestidos.value) {
-      if (vestido.id == id) {
-        return vestido
-      }
-    }
-    return {}
+    return vestidos.value.find(v => v.id == id)
+    // for (let vestido of vestidos.value) {
+    //   if (vestido.id == id) {
+    //     return vestido
+    //   }
+    // }
+    // return {}
   }
 
   return { vestidos, meta, buscarVestidos, pegarVestidoPorId }

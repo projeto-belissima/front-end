@@ -3,8 +3,18 @@ import { onMounted, ref } from 'vue'
 import { useVestidoStore } from '@/stores/vestido'
 
 const props = defineProps(['id']);
-const vestido = ref({});
+const vestido = ref({
+  descritivo: '',
+  descricao: '',
+  media_preco: '0',
+  cores: [],
+  capa: []
+});
 const vestidoStore = useVestidoStore();
+
+function formataPreco(preco) {
+  return preco.replace('.', ',')
+}
 
 onMounted(async () => {
   await vestidoStore.buscarVestidos()
@@ -13,14 +23,16 @@ onMounted(async () => {
 </script>
 
 <template>
+  <!-- {{ vestido }} -->
+
   <section class="vestido" v-if="vestido">
 
-    <img :src="vestido.capa[0].url" />
+    <img :src="vestido.capa[0]?.url" />
     <div class="informacoes">
       <h5 class="nome-produto">{{ vestido.descritivo }}</h5>
       <p class="descricao">{{ vestido.descricao }}</p>
-      <h5 class="valor-produto">R$ {{ vestido.media_preco.replace('.', ',') }}</h5>
-      <h5 class="cores">cor: {{ vestido.cores[0].nome }}</h5>
+      <h5 class="valor-produto">R$ {{ formataPreco(vestido.media_preco) }}</h5>
+      <h5 class="cores">cor: {{ vestido.cores[0]?.nome }}</h5>
       <div class="selecao-cor">
         <div v-for="cor in vestido.cores" :key="cor.id" class="button">
           <button :style="{ 'background-color': cor.hex }"></button>
