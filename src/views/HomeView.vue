@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 import Swiper from 'swiper/bundle';
 
 import 'swiper/css/bundle';
+import { RouterLink } from 'vue-router';
 
 const stories = ref([
   { id: 1, nome: "novidades", img: "quadrado-marrom.png", alt: "" },
@@ -75,10 +76,10 @@ onMounted(() => {
 <template>
   <main>
     <section class="secao-stories">
-      <div class="secao-stories-story" v-for="story in stories" :key="story.id">
+      <RouterLink to="/selecao-vestidos" class="secao-stories-story" v-for="story in stories" :key="story.id">
         <img :src="imgUrl(story.img)" :alt="story.alt">
         <h5>{{ story.nome }}</h5>
-      </div>
+      </RouterLink>
     </section>
 
     <section class="secao-carrossel">
@@ -144,6 +145,7 @@ onMounted(() => {
   display: grid;
   row-gap: 10px;
   justify-items: center;
+  text-decoration: none;
 
   & img {
     width: 7rem;
@@ -154,6 +156,7 @@ onMounted(() => {
     font-family: var(--fonte-principal);
     font-size: 1rem;
     font-weight: 400;
+    color: black;
   }
 }
 

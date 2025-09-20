@@ -36,7 +36,7 @@ onMounted(() => {
     </div>
 
     <div class="guia-busca">
-      <input type="text" v-model="filtro" /><button @click="buscarComFiltro">Filtrar</button>
+      <input type="text" v-model="filtro" /><button @click="buscarComFiltro">filtrar</button>
     </div>
   </section>
 
