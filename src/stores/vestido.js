@@ -20,5 +20,17 @@ export const useVestidoStore = defineStore('vestido', () => {
     meta.value.page_size = data.page_size
   }
 
-  return { vestidos, meta, buscarVestidos }
+  function pegarVestidoPorId(id) {
+    // Modelo universal
+    return vestidos.value.find(v => v.id == id)
+    // for (let vestido of vestidos.value) {
+    //   if (vestido.id == id) {
+    //     return vestido
+    //   }
+    // }
+    // return {}
+  }
+
+  return { vestidos, meta, buscarVestidos, pegarVestidoPorId }
 })
+

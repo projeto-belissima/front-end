@@ -39,9 +39,10 @@ const router = createRouter({
       component: () => import('../views/UsuarioView.vue'),
     },
     {
-      path: '/vestido',
+      path: '/vestido/:id',
       name: 'vestido',
       component: () => import('../views/VestidosView.vue'),
+      props: true,
     },
   ],
 })

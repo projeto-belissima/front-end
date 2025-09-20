@@ -38,7 +38,13 @@ onMounted(() => {
     <div class="linha-secundaria" v-for="vestido in vestidoStore.vestidos" :key="vestido.id">
       <span> <p>{{ vestido.id }}</p> </span>
       <span class="coluna-maior"> <p>{{ vestido.descritivo }}</p> </span>
-      <span class="coluna-cor"> <p>{{ vestido.cores }}</p> </span>
+      <span class="coluna-cor">
+        <p>
+          <strong v-for="(cor, index) in vestido.cores" :key="cor.id">
+            {{ cor.nome }}<i v-if="index < vestido.cores.length - 1">, </i>
+          </strong>
+        </p>
+      </span>
       <span> <p>R$ {{ vestido.media_preco.replace('.', ',') }}</p> </span>
       <span class="coluna-imagem"> <p><img :src="vestido.capa[0].url" :alt="vestido.descricao"></p> </span>
     </div>
@@ -158,6 +164,11 @@ onMounted(() => {
       height: 3rem;
       object-fit: cover;
       border-radius: 5px;
+    }
+
+    & div.linha-secundaria > span > p > strong {
+      text-transform: lowercase;
+      font-weight: 400;
     }
   }
 
