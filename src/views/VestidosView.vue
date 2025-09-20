@@ -22,6 +22,11 @@ function formataPreco(preco) {
   return preco.replace('.', ',')
 }
 
+const idCor = ref(0);
+function mostrarCor(index) {
+  return idCor.value = index
+}
+
 onMounted(async () => {
   await vestidoStore.buscarVestidos()
   vestido.value = vestidoStore.pegarVestidoPorId(props.id)
@@ -86,10 +91,10 @@ onMounted(async () => {
       <h5 class="nome-produto">{{ vestido.descritivo }}</h5>
       <p class="descricao">{{ vestido.descricao }}</p>
       <h5 class="valor-produto">R$ {{ formataPreco(vestido.media_preco) }}</h5>
-      <h5 class="cores">cor: {{ vestido.cores[0]?.nome }}</h5>
+      <h5 class="cores">cor: {{ vestido.cores.find(cor => cor.id === idCor)?.nome }}</h5>
       <div class="selecao-cor">
         <div v-for="cor in vestido.cores" :key="cor.id" class="button">
-          <button :style="{ 'background-color': cor.hex }"></button>
+          <button @click="mostrarCor(cor.id)" :style="{ 'background-color': cor.hex }"></button>
         </div>
       </div>
     </div>
