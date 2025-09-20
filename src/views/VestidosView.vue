@@ -1,34 +1,101 @@
 <script setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import { useVestidoStore } from '@/stores/vestido'
+import Swiper from 'swiper/bundle';
 
+import 'swiper/css/bundle';
+
+const props = defineProps(['id']);
 const vestido = ref({
-  id: 1,
-  nome: 'vestido midi com manga longa',
-  descricao:
-    'vestido midi preto de manga longa com decote ombro a ombro em malha justinha com caimento encorpado, elastano e fenda na perna',
-  mediaPreco: '109.90',
-  img: 'vestido-midi-marrom.png',
-  alt: '',
-  cores: 'marrom',
-  medidas: '70cm'
-})
+  descritivo: '',
+  descricao: '',
+  media_preco: '0',
+  cores: [],
+  capa: [{
+    url: '',
+    description: '',
+  }],
+});
+const vestidoStore = useVestidoStore();
 
-const imgUrl = (img) => new URL(`../assets/img/${img}`, import.meta.url).href
+function formataPreco(preco) {
+  return preco.replace('.', ',')
+}
+
+const idCor = ref(0);
+function mostrarCor(index) {
+  return idCor.value = index
+}
+
+onMounted(async () => {
+  await vestidoStore.buscarVestidos()
+  vestido.value = vestidoStore.pegarVestidoPorId(props.id)
+
+  new Swiper('.swiper', {
+    direction: 'horizontal',
+    loop: true,
+    grabCursor: true,
+
+    pagination: {
+      el: ".swiper-pagination",
+      clickable: true,
+    },
+
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev',
+    },
+
+    slidesPerView: 1,
+    spaceBetween: 10,
+    breakpoints: {
+      slidesPerView: 1,
+      spaceBetween: 20
+    }
+  });
+
+})
 </script>
 
 <template>
-  <section class="vestido">
+  <!-- {{ vestido }} -->
 
-    <img :src="imgUrl(vestido.img)" />
+  <section class="vestido" v-if="vestido">
+
+    <div class="swiper">
+
+      <div class="swiper-wrapper">
+        <div class="swiper-slide" v-for="(imagem, index) in vestido?.capa" :key="index">
+          <img :src="imagem?.url" :alt="imagem?.description">
+        </div>
+      </div>
+
+      <div class="swiper-button-prev">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-arrow-left-short"
+          viewBox="0 0 16 16">
+          <path fill-rule="evenodd"
+            d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5" />
+        </svg>
+      </div>
+      <div class="swiper-button-next">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi bi-arrow-right-short"
+          viewBox="0 0 16 16">
+          <path fill-rule="evenodd"
+            d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8" />
+        </svg>
+      </div>
+
+    </div>
+
     <div class="informacoes">
-      <h5 class="nome-produto">{{ vestido.nome }}</h5>
+      <h5 class="nome-produto">{{ vestido.descritivo }}</h5>
       <p class="descricao">{{ vestido.descricao }}</p>
-      <h5 class="valor-produto">R$ {{ vestido.mediaPreco.replace('.', ',') }}</h5>
-      <h5 class="cores">cor: {{ vestido.cores }}</h5>
+      <h5 class="valor-produto">R$ {{ formataPreco(vestido.media_preco) }}</h5>
+      <h5 class="cores">cor: {{ vestido.cores.find(cor => cor.id === idCor)?.nome }}</h5>
       <div class="selecao-cor">
-        <div class="button botao-cor-selecionado"><button class="azul"></button></div>
-        <div class="button"><button class="marrom"></button></div>
-        <div class="button"><button class="rosa"></button></div>
+        <div v-for="cor in vestido.cores" :key="cor.id" class="button">
+          <button @click="mostrarCor(cor.id)" :style="{ 'background-color': cor.hex }"></button>
+        </div>
       </div>
     </div>
 
@@ -44,11 +111,43 @@ const imgUrl = (img) => new URL(`../assets/img/${img}`, import.meta.url).href
 
   & img {
     justify-self: center;
+    width: 40%;
   }
 
   & div.informacoes {
     padding-right: 10rem;
   }
+}
+
+.swiper {
+  width: 100%;
+  height: auto;
+  display: grid;
+  column-gap: .5rem;
+  align-items: center;
+}
+
+.swiper-slide {
+  display: grid;
+  justify-content: center;
+
+  & img {
+    width: 25vw;
+  }
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  width: 25px;
+  height: 25px;
+  background-color: white;
+  border-radius: 50%;
+  color: black;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  content: none;
 }
 
 .nome-produto {
@@ -62,6 +161,7 @@ const imgUrl = (img) => new URL(`../assets/img/${img}`, import.meta.url).href
   font-size: 1rem;
   font-weight: 300;
   margin-top: 0.7rem;
+  text-transform: lowercase;
 }
 
 .valor-produto {
@@ -75,6 +175,7 @@ const imgUrl = (img) => new URL(`../assets/img/${img}`, import.meta.url).href
   font-size: 1rem;
   font-weight: 300;
   margin: .5rem 0;
+  text-transform: lowercase;
 }
 
 .selecao-cor {
@@ -101,16 +202,6 @@ const imgUrl = (img) => new URL(`../assets/img/${img}`, import.meta.url).href
     border: none;
     cursor: pointer;
   }
-}
-
-.azul {
-  background-color: blue;
-}
-.marrom {
-  background-color: brown;
-}
-.rosa {
-  background-color: palevioletred;
 }
 
 @media(max-width: 840px) {
