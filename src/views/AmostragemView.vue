@@ -45,8 +45,10 @@ onMounted(() => {
   <main class="amostragem-vestidos">
       <div @click="visualizar(vestido.id)" class="vestido-unidade" v-for="vestido in vestidoStore.vestidos" :key="vestido.id">
         <img :src="vestido.capa[0].url" :alt="vestido.descricao">
-        <h6>Vestido {{ vestido.descritivo }} {{ vestido.cor }}</h6>
-        <p>R$ {{ vestido.media_preco.replace('.', ',') }}</p>
+        <div>
+          <h6>Vestido {{ vestido.descritivo }} {{ vestido.cor }}</h6>
+          <p>R$ {{ vestido.media_preco.replace('.', ',') }}</p>
+        </div>
       </div>
   </main>
 
@@ -123,26 +125,33 @@ onMounted(() => {
 
   .amostragem-vestidos {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     padding: 3rem;
-    gap: 1rem .5rem ;
+    gap: 1rem;
     justify-items: center;
   }
 
   .vestido-unidade {
+    display: grid;
+    grid-template-rows: 10fr 2fr;
+    row-gap: .5rem;
     font-family: var(--fonte-principal);
 
     & img {
-      width: 25vw;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      cursor: pointer;
     }
 
-    & h6 {
+    & div > h6 {
       font-weight: 400;
       font-size: .8rem;
       text-transform: lowercase;
+      cursor: pointer;
     }
 
-    & p {
+    & div > p {
       font-weight: 500;
       font-size: 1.2rem;
     }
@@ -180,5 +189,24 @@ onMounted(() => {
     background-color: black;
     color: white;
     font-weight: bolder;
+  }
+
+  @media (max-width: 900px) {
+    .amostragem-vestidos {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 620px) {
+    .amostragem-vestidos {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 470px) {
+    .amostragem-vestidos {
+      grid-template-columns: 1fr;
+      padding: 1rem;
+    }
   }
 </style>
