@@ -22,6 +22,11 @@
         <input type="tel">
       </div>
 
+      <div>
+        <label>DDD:</label>
+        <input type="number">
+      </div>
+
       <section>
         <h3>Seção de endereço</h3>
 
