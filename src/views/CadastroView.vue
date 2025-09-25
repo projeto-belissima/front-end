@@ -1,20 +1,27 @@
 <script setup>
+import { ref } from 'vue'
 
+const usuario = ref({
+  email: '',
+  nome: '',
+  password: ''
+})
 </script>
 
 <template>
   <main>
     <h2 class="titulo">Cadastro</h2>
+    <!-- {{ usuario }} -->
     <form class="container">
 
       <div>
         <label>Nome social:</label>
-        <input type="text">
+        <input v-model="usuario.nome" type="text">
       </div>
 
       <div>
         <label>E-mail:</label>
-        <input type="email">
+        <input v-model="usuario.email" type="email">
       </div>
 
       <div>
@@ -25,6 +32,16 @@
       <div>
         <label>DDD:</label>
         <input type="number">
+      </div>
+
+      <div>
+        <label>Senha:</label>
+        <input v-model="usuario.password" type="password">
+      </div>
+
+      <div>
+        <label>Confirmação de senha:</label>
+        <input type="password">
       </div>
 
       <section>
