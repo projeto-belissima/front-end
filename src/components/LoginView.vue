@@ -1,5 +1,8 @@
 <script setup>
+import "@passageidentity/passage-elements/passage-auth";
 import { usarLoginConfig } from '@/stores/login';
+
+const appId = import.meta.env.VITE_PASSAGE_APP_ID;
 const loginConfig = usarLoginConfig();
 </script>
 
@@ -13,22 +16,11 @@ const loginConfig = usarLoginConfig();
       </button>
 
       <h2>campo de login</h2>
-      <div>
-          <label for="user-name">nome de usuário:</label>
-          <input type="text" name="user-name" id="user-name">
+
+      <div class="authContainer">
+        <passage-auth :appId="appId"></passage-auth>
       </div>
 
-      <div>
-        <label for="user-password">senha:</label>
-        <input type="password" name="user-password" id="user-password">
-      </div>
-
-      <button class="botao-envio">ENTRAR</button>
-
-      <div>
-        <p><a>esqueceu a senha?</a></p>
-        <p><Router-Link to="/cadastro">fazer o cadastro</Router-Link></p>
-      </div>
     </section>
   </main>
 </template>
@@ -59,6 +51,10 @@ const loginConfig = usarLoginConfig();
     background-color: #f2f2f2;
     border-radius: 5px;
     box-shadow: 0px 0px 4px 3px rgba(0, 0, 0, .4);
+
+    & h2 {
+      text-align: center;
+    }
   }
 
   .botao-saida {
@@ -70,50 +66,14 @@ const loginConfig = usarLoginConfig();
     cursor: pointer;
   }
 
-  .login-section h2, .login-section div p {
+  .authContainer {
+    background-color: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
     text-align: center;
-  }
-
-  .login-section div {
-    display: grid;
-    grid-template-rows: auto auto;
-    row-gap: .5rem;
-  }
-
-  .login-section div input {
-    padding: .5rem;
-    border: 1px solid #000;
-    background-color: var(--vt-c-transparent);
-    color: #000;
-    border-radius: 6px;
-  }
-
-  .login-section div input:focus {
-    outline: 0;
-    border: 2px solid;
-  }
-
-  .botao-envio {
-    padding: .5rem;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    background-color: #00000098;
-    color: #fff;
-  }
-
-  .botao-envio:hover {
-    background-color: #000;
-    color: #fff;
-    cursor: pointer;
-  }
-
-  .login-section div p a {
-    color: #000;
-  }
-
-  .login-section div p a:hover {
-    cursor: pointer;
-    text-decoration: underline;
   }
 </style>

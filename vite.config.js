@@ -15,4 +15,8 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  compilerOptions: {
+    // treat any tag that starts with passage- as custom elements
+    isCustomElement: (tag) => tag.startsWith('passage-'),
+  },
 })
