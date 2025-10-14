@@ -1,44 +1,10 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 
-import { PassageUser } from '@passageidentity/passage-elements/passage-user';
-import { useAuthStore } from '@/stores/auth';
-
 import Swiper from 'swiper/bundle';
 import 'swiper/css/bundle';
 
 import { RouterLink } from 'vue-router';
-
-const authStore = useAuthStore();
-const psg_auth_token = ref('');
-const copyMessageVisible = ref(false);
-
-const getUserInfo = async () => {
-  try {
-    const authToken = localStorage.getItem('psg_auth_token');
-    const passageUser = new PassageUser(authToken);
-    const user = await passageUser.userInfo(authToken);
-    psg_auth_token.value = authToken;
-    if (user) {
-      await authStore.setToken(authToken);
-    } else {
-      authStore.unsetToken();
-    }
-  } catch (error) {
-    authStore.unsetToken();
-  }
-};
-
-const copyToClipboard = () => {
-  navigator.clipboard.writeText(psg_auth_token.value).then(() => {
-    copyMessageVisible.value = true;
-    setTimeout(() => {
-      copyMessageVisible.value = false;
-    }, 2000);
-  }).catch(err => {
-    console.error('Erro ao copiar o token: ', err);
-  });
-};
 
 const stories = ref([
   { id: 1, nome: "novidades", img: "quadrado-marrom.png", alt: "" },
@@ -70,7 +36,7 @@ const colaboradores = ref([
 const imgUrl = (img) => new URL(`../assets/img/${img}`, import.meta.url).href;
 
 onMounted(() => {
-  getUserInfo();
+  // getUserInfo();
   new Swiper('.swiper', {
     direction: 'horizontal',
     loop: true,
@@ -111,10 +77,6 @@ onMounted(() => {
 
 <template>
   <main>
-
-    <button @click="copyToClipboard">Copiar token de autenticação</button>
-    <p v-if="copyMessageVisible">Token copiado com sucesso!</p>
-    <p>{{ psg_auth_token }}</p>
 
     <section class="secao-stories">
       <RouterLink to="/selecao-vestidos" class="secao-stories-story" v-for="story in stories" :key="story.id">
