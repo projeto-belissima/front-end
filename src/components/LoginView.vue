@@ -56,8 +56,6 @@ onMounted(() => {
         </svg>
       </button>
 
-      <h2>campo de login</h2>
-
       <div class="authContainer">
         <passage-auth :appId="appId"></passage-auth>
       </div>
@@ -84,37 +82,24 @@ onMounted(() => {
     justify-content: center;
     justify-self: center;
     align-content: center;
-    row-gap: 2rem;
     padding: 1.5rem;
     width: 350px;
-    font-family: var(--fonte-principal);
     color: #000;
-    background-color: #f2f2f2;
+    background-color: #fff;
     border-radius: 5px;
     box-shadow: 0px 0px 4px 3px rgba(0, 0, 0, .4);
-
-    & h2 {
-      text-align: center;
-    }
   }
 
   .botao-saida {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
+    background-color: #fff;
     border: none;
     cursor: pointer;
   }
 
   .authContainer {
-    background-color: white;
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 100%;
+    background-color: #fff;
     max-width: 400px;
-    margin: 20px auto;
     text-align: center;
   }
 </style>
