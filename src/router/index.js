@@ -14,6 +14,11 @@ const router = createRouter({
       component: () => import('../views/CadastroView.vue'),
     },
     {
+      path: "/logout",
+      name: "logout",
+      component: () => import('../views/LogoutView.vue'),
+    },
+    {
       path: '/menu-funcionario',
       name: 'menu-funcionario',
       component: () => import('../views/MenuFuncionarioView.vue'),
@@ -24,6 +29,11 @@ const router = createRouter({
       component: () => import('../views/ModelosVestidosView.vue')
     },
     {
+      path: '/perfil-usuario',
+      name: 'perfil-usuario',
+      component: () => import('../views/UsuarioView.vue'),
+    },
+    {
       path: '/selecao-vestidos',
       name: 'amostragem',
       component: () => import('../views/AmostragemView.vue'),
@@ -32,11 +42,6 @@ const router = createRouter({
       path: '/vendas',
       name: 'vendas',
       component: () => import('../views/VendaView.vue'),
-    },
-    {
-      path: '/perfil-usuario',
-      name: 'perfil-usuario',
-      component: () => import('../views/UsuarioView.vue'),
     },
     {
       path: '/vestido/:id',
