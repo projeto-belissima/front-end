@@ -1,18 +1,74 @@
 <script setup>
-import { ref } from "vue"
-import icone from "@/assets/img/icone-de-pessoa.png"
+import { ref, watch, onMounted } from "vue"
+import { useAuthStore } from '@/stores/auth'; // Importa a store de autenticação
+// import icone from "@/assets/img/icone-de-pessoa.png"
+// const fotoPerfil = ref(icone)
+const authStore = useAuthStore();
 
-const fotoPerfil = ref(icone)
+const user = ref({
+  id: null,
+  name: '',
+  email: '',
+  foto: {
+    url: '',
+    description: '',
+  }
+});
 
-function selecionarFoto(event) {
-  const arquivo = event.target.files[0]
-  if (arquivo) {
-    fotoPerfil.value = URL.createObjectURL(arquivo)
+
+// Ao montar, busca usuário logado
+onMounted(async () => {
+  await authStore.fetchUser()
+
+  if (authStore.user && authStore.user.id) {
+    Object.assign(user.value, authStore.user)
+  }
+})
+
+
+
+// Se o usuário do Passage mudar (ex: login/logout), sincroniza com o formulário
+watch(
+  () => authStore.user,
+  (newUser) => {
+    if (newUser) {
+      user.value = {
+        name: newUser.name || "",
+        email: newUser.email || "",
+        foto: {
+          url: newUser.foto?.url || "",
+          description: newUser.foto?.description || "",
+        },
+      };
+    }
+  }
+);
+
+
+// Salvar alterações
+async function salvarAlteracoes() {
+  console.log('Métodos disponíveis na store:', Object.keys(authStore));
+  try {
+    await authStore.updateUser(user.value);
+    await authStore.fetchUser();
+    alert("Perfil atualizado com sucesso!");
+  } catch (error) {
+    console.error("Erro ao salvar:", error);
+    alert("Erro ao salvar alterações.");
   }
 }
 
-const editando = ref(false)
 
+// Atualizar foto
+function selecionarFoto(event) {
+  const arquivo = event.target.files[0]
+  if (arquivo) {
+    user.value.foto.url = URL.createObjectURL(arquivo)
+  }
+}
+
+// Alternar modo de edição
+const editando = ref(false)
 function alternarEdicao() {
   editando.value = !editando.value
 }
@@ -20,15 +76,17 @@ function alternarEdicao() {
 
 <template>
   <h1>meu perfil</h1>
+  <button @click="salvarAlteracoes">salvar</button>
 
   <div class="perfil-container">
     <div class="infos">
-      <p>nome completo:</p>
-      <p>apelido:</p>
+      <label>nome:</label>
+      <input v-model="user.name" type="text">
     </div>
+
     <div class="foto-container">
       <label for="upload">
-        <img :src="fotoPerfil" alt="Imagem de perfil" class="foto" />
+        <img :src="user?.foto.url" alt="Imagem de perfil" class="foto" />
       </label>
       <input type="file" id="upload" accept="image/*" @change="selecionarFoto" hidden />
       <span class="dica">clique na foto para alterar</span>
@@ -38,7 +96,7 @@ function alternarEdicao() {
   <div class="informacoes">
     <h2>minhas medidas</h2>
     <p>minhas medições ajuda a simplificar o processo de encontrar a sua adaptação perfeita!</p>
-    
+
     <form @submit.prevent="alternarEdicao">
       <div>
         <label>altura:</label>
@@ -159,6 +217,7 @@ input:disabled {
 .infos p {
   font-size: 1.25rem;
   font-family: var(--fonte-corpo);
+  text-transform: lowercase;
   margin: 0.3rem 0;
 }
 
