@@ -1,9 +1,10 @@
 <script setup>
 import { ref, watch, onMounted } from "vue"
 import { useAuthStore } from '@/stores/auth'; // Importa a store de autenticação
-// import icone from "@/assets/img/icone-de-pessoa.png"
-// const fotoPerfil = ref(icone)
+import { useTelefoneStore } from "@/stores/telefone"
+
 const authStore = useAuthStore();
+const telefoneStore = useTelefoneStore()
 
 const user = ref({
   id: null,
@@ -15,6 +16,11 @@ const user = ref({
   }
 });
 
+const telefone = ref({
+  numero: null,
+  usuario: null,
+})
+
 
 // Ao montar, busca usuário logado
 onMounted(async () => {
@@ -22,6 +28,10 @@ onMounted(async () => {
 
   if (authStore.user && authStore.user.id) {
     Object.assign(user.value, authStore.user)
+    await telefoneStore.fetchTelefone()
+    if (telefoneStore.telefone) {
+      telefone.value.numero = telefoneStore.telefone.numero
+    }
   }
 })
 
@@ -59,6 +69,17 @@ async function salvarAlteracoes() {
 }
 
 
+async function salvarTelefone() {
+  try {
+    await telefoneStore.saveTelefone(telefone.value.numero)
+    alert("Telefone atualizado com sucesso!")
+  } catch (err) {
+    console.error(err)
+    alert("Erro ao salvar telefone")
+  }
+}
+
+
 // Atualizar foto
 function selecionarFoto(event) {
   const arquivo = event.target.files[0]
@@ -76,13 +97,61 @@ function alternarEdicao() {
 
 <template>
   <h1>meu perfil</h1>
-  <button @click="salvarAlteracoes">salvar</button>
+
 
   <div class="perfil-container">
-    <div class="infos">
-      <label>nome:</label>
-      <input v-model="user.name" type="text">
-    </div>
+    <form class="infos" @submit.prevent="alternarEdicao">
+      <fieldset>
+        <h3>informações gerais</h3>
+        <div>
+          <label>nome:</label>
+          <input v-model="user.name" type="text" :disabled="!editando" />
+        </div>
+        <div>
+          <label>email:</label>
+          <input v-model="user.email" type="text" :disabled="!editando" />
+        </div>
+        <div>
+          <label>telefone:</label>
+          <input v-model="telefone.numero" type="text" :disabled="!editando" />
+        </div>
+        <a @click="salvarAlteracoes">salvar</a>
+        <a @click="salvarTelefone">saalvar telefone</a>
+      </fieldset>
+
+      <fieldset>
+        <h3>endereço</h3>
+        <div>
+          <label>cep:</label>
+          <input type="text" :disabled="!editando" />
+        </div>
+        <div>
+          <label>número:</label>
+          <input type="text" :disabled="!editando" />
+        </div>
+        <div>
+          <label>logradouro:</label>
+          <input type="text" :disabled="!editando" />
+        </div>
+        <div>
+          <label>bairro:</label>
+          <input type="text" :disabled="!editando" />
+        </div>
+        <div>
+          <label>cidade:</label>
+          <input type="text" :disabled="!editando" />
+        </div>
+        <div>
+          <label>estado:</label>
+          <input type="text" :disabled="!editando" />
+        </div>
+      </fieldset>
+
+      <div>
+        <button type="submit">{{ editando ? 'salvar' : 'editar' }}</button>
+      </div>
+
+    </form>
 
     <div class="foto-container">
       <label for="upload">
@@ -169,19 +238,20 @@ input:disabled {
 
 .perfil-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 2fr 1fr;
   width: 90%;
   justify-self: center;
 }
 
 .foto-container {
-  position: relative;
-  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .foto-container .foto {
   width: 100%;
-  max-width: 150px;
+  max-width: 15rem;
   height: auto;
   border-radius: 50%;
   object-fit: cover;
@@ -205,8 +275,8 @@ input:disabled {
 
 @media (max-width: 768px) {
   .perfil-container {
-    grid-template-columns: 1fr;
-    text-align: left;
+    display: flex;
+    flex-direction: column-reverse;
   }
 
   .foto-container {
