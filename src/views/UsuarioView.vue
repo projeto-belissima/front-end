@@ -100,7 +100,7 @@ function alternarEdicao() {
 
 
   <div class="perfil-container">
-    <form class="infos" @submit.prevent="alternarEdicao">
+    <form class="perfil-container-infos" @submit.prevent="alternarEdicao">
       <fieldset>
         <h3>informações gerais</h3>
         <div>
@@ -166,7 +166,7 @@ function alternarEdicao() {
     <h2>minhas medidas</h2>
     <p>minhas medições ajuda a simplificar o processo de encontrar a sua adaptação perfeita!</p>
 
-    <form @submit.prevent="alternarEdicao">
+    <form class="informacoes-formulario" @submit.prevent="alternarEdicao">
       <div>
         <label>altura:</label>
         <input type="text" :disabled="!editando" />
@@ -195,52 +195,25 @@ function alternarEdicao() {
 </template>
 
 <style scoped>
-h1 {
-  font-size: 2rem;
-  font-family: var(--fonte-principal);
-  text-align: center;
-  margin-top: 1.5rem;
-}
-
-div.informacoes {
+.perfil-container {
   display: grid;
+  grid-template-columns: 2fr 1fr;
+  font-family: var(--fonte-principal);
   width: 90%;
   justify-self: center;
-  font-family: var(--fonte-corpo);
-  font-size: medium;
-  margin-top: 2rem;
 }
 
-form {
+.perfil-container-infos > fieldset {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   margin-top: 1rem;
-}
 
-form div {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-input {
-  border: none;
-  flex: 1;
-  max-width: 300px;
-}
-
-input:disabled {
-  background-color: #f0f0f0;
-  color: #777;
-  cursor: not-allowed;
-}
-
-.perfil-container {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  width: 90%;
-  justify-self: center;
+  & div {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
 }
 
 .foto-container {
@@ -273,6 +246,47 @@ input:disabled {
   margin-top: 0.5rem;
 }
 
+h1 {
+  font-size: 2rem;
+  font-family: var(--fonte-principal);
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+div.informacoes {
+  display: grid;
+  width: 90%;
+  justify-self: center;
+  font-family: var(--fonte-principal);
+  font-size: medium;
+  margin-top: 2rem;
+}
+
+.informacoes-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.informacoes-formulario div {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+input {
+  border: none;
+  flex: 1;
+  max-width: 300px;
+}
+
+input:disabled {
+  background-color: #f0f0f0;
+  color: #777;
+  cursor: not-allowed;
+}
+
 @media (max-width: 768px) {
   .perfil-container {
     display: flex;
@@ -284,9 +298,12 @@ input:disabled {
   }
 }
 
-.infos p {
+.perfil-container-infos > fieldset {
+  border: none;
+}
+
+.perfil-container-infos p {
   font-size: 1.25rem;
-  font-family: var(--fonte-corpo);
   text-transform: lowercase;
   margin: 0.3rem 0;
 }
@@ -326,7 +343,7 @@ button:hover {
     font-size: 1.5rem;
   }
 
-  .infos p {
+  .perfil-container-infos p {
     font-size: 1rem;
   }
 }
