@@ -1,28 +1,27 @@
-import { ref } from 'vue';
-import { defineStore } from 'pinia';
-import AuthService from '@/api/auth';
+import { ref } from 'vue'
+import { defineStore } from 'pinia'
+import AuthService from '@/api/auth'
 
-const authService = new AuthService();
+const authService = new AuthService()
 
 export const useAuthStore = defineStore('auth', () => {
-  const user = ref({});
-  const loggedIn = ref(false);
+  const user = ref({})
+  const loggedIn = ref(false)
   const token = ref(null)
 
   // Define o token e busca o usuário do Passage ou backend
   async function setToken(newToken) {
     token.value = newToken
-    user.value = await authService.postUserToken(newToken);
-    loggedIn.value = true;
+    user.value = await authService.postUserToken(newToken)
+    loggedIn.value = true
   }
 
   // Limpa os dados de autenticação
   function unsetToken() {
-    user.value = {};
-    loggedIn.value = false;
+    user.value = {}
+    loggedIn.value = false
     token.value = null
   }
-
 
   // Busca o usuário atual (ex.: ao montar o perfil)
   async function fetchUser() {
@@ -39,13 +38,20 @@ export const useAuthStore = defineStore('auth', () => {
   // Atualiza os dados do usuário
   async function updateUser(updatedData) {
     try {
-      const updatedUser = await authService.updateUser({
-        name: updatedData.name,
-        foto: {
-          url: updatedData.foto.url,
-          description: updatedData.foto.description,
-        }
-      }, token.value, updatedData.id) // PATCH
+      const updatedUser = await authService.updateUser(
+        {
+          name: updatedData.name,
+          foto: updatedData.foto
+            ? {
+                url: updatedData.foto.url,
+                description: updatedData.foto.description,
+              }
+            : null,
+        },
+        console.log('Token enviado:', token),
+        token.value,
+        updatedData.id,
+      ) // PATCH
       user.value = updatedUser
       return updatedUser
     } catch (error) {
@@ -54,5 +60,5 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  return { user, loggedIn, setToken, unsetToken, fetchUser, updateUser };
-});
+  return { user, loggedIn, setToken, unsetToken, fetchUser, updateUser }
+})

@@ -22,12 +22,20 @@ const telefone = ref({
 })
 
 
-// Ao montar, busca usuário logado
+// Montagem inicial
 onMounted(async () => {
   await authStore.fetchUser()
 
   if (authStore.user && authStore.user.id) {
-    Object.assign(user.value, authStore.user)
+    // Garante que o campo foto nunca seja null
+    const backendUser = authStore.user
+    user.value = {
+      id: backendUser.id || null,
+      name: backendUser.name || '',
+      email: backendUser.email || '',
+      foto: backendUser.foto || { url: '', description: '' },
+    }
+
     await telefoneStore.fetchTelefone()
     if (telefoneStore.telefone) {
       telefone.value.numero = telefoneStore.telefone.numero
@@ -37,34 +45,35 @@ onMounted(async () => {
 
 
 
-// Se o usuário do Passage mudar (ex: login/logout), sincroniza com o formulário
+// Sincroniza se o usuário mudar no store
 watch(
   () => authStore.user,
   (newUser) => {
     if (newUser) {
-      user.value = {
+      Object.assign(user.value, {
+        id: newUser.id ?? user.value.id,
         name: newUser.name || "",
         email: newUser.email || "",
-        foto: {
-          url: newUser.foto?.url || "",
-          description: newUser.foto?.description || "",
-        },
-      };
+        foto: newUser.foto || { url: "", description: "" },
+      })
     }
   }
-);
+)
 
 
-// Salvar alterações
+// Salvar alterações de usuário
 async function salvarAlteracoes() {
-  console.log('Métodos disponíveis na store:', Object.keys(authStore));
   try {
-    await authStore.updateUser(user.value);
-    await authStore.fetchUser();
-    alert("Perfil atualizado com sucesso!");
+    if (!user.value.id) {
+      alert("Usuário não identificado. Faça login novamente.")
+      return
+    }
+    await authStore.updateUser(user.value)
+    await authStore.fetchUser()
+    alert("Perfil atualizado com sucesso!")
   } catch (error) {
-    console.error("Erro ao salvar:", error);
-    alert("Erro ao salvar alterações.");
+    console.error("Erro ao salvar:", error)
+    alert("Erro ao salvar alterações.")
   }
 }
 
@@ -80,10 +89,11 @@ async function salvarTelefone() {
 }
 
 
-// Atualizar foto
+// Atualizar foto localmente
 function selecionarFoto(event) {
   const arquivo = event.target.files[0]
   if (arquivo) {
+    if (!user.value.foto) user.value.foto = {}
     user.value.foto.url = URL.createObjectURL(arquivo)
   }
 }
@@ -155,7 +165,7 @@ function alternarEdicao() {
 
     <div class="foto-container">
       <label for="upload">
-        <img :src="user?.foto.url" alt="Imagem de perfil" class="foto" />
+        <img :src="user?.foto?.url || '/img/padrao.png'" alt="Imagem de perfil" class="foto" />
       </label>
       <input type="file" id="upload" accept="image/*" @change="selecionarFoto" hidden />
       <span class="dica">clique na foto para alterar</span>
@@ -203,7 +213,7 @@ function alternarEdicao() {
   justify-self: center;
 }
 
-.perfil-container-infos > fieldset {
+.perfil-container-infos>fieldset {
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -298,7 +308,7 @@ input:disabled {
   }
 }
 
-.perfil-container-infos > fieldset {
+.perfil-container-infos>fieldset {
   border: none;
 }
 
