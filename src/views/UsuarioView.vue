@@ -16,10 +16,7 @@ const user = ref({
   }
 });
 
-const telefone = ref({
-  numero: null,
-  usuario: null,
-})
+const telefoneNumero = ref('')
 
 
 // Montagem inicial
@@ -38,7 +35,7 @@ onMounted(async () => {
 
     await telefoneStore.fetchTelefone()
     if (telefoneStore.telefone) {
-      telefone.value.numero = telefoneStore.telefone.numero
+      telefoneNumero.value = telefoneStore.telefone?.numero
     }
   }
 })
@@ -70,24 +67,13 @@ async function salvarAlteracoes() {
     }
     await authStore.updateUser(user.value)
     await authStore.fetchUser()
+    await telefoneStore.saveTelefone(telefoneNumero.value)
     alert("Perfil atualizado com sucesso!")
   } catch (error) {
     console.error("Erro ao salvar:", error)
     alert("Erro ao salvar alterações.")
   }
 }
-
-
-async function salvarTelefone() {
-  try {
-    await telefoneStore.saveTelefone(telefone.value.numero)
-    alert("Telefone atualizado com sucesso!")
-  } catch (err) {
-    console.error(err)
-    alert("Erro ao salvar telefone")
-  }
-}
-
 
 // Atualizar foto localmente
 function selecionarFoto(event) {
@@ -123,7 +109,7 @@ function alternarEdicao() {
         </div>
         <div>
           <label>telefone:</label>
-          <input v-model="telefone.numero" type="text" :disabled="!editando" />
+          <input v-model="telefoneNumero" type="text" placeholder="(xx) xxxxx-xxxx" :disabled="!editando" />
         </div>
         <a @click="salvarAlteracoes">salvar</a>
         <a @click="salvarTelefone">saalvar telefone</a>

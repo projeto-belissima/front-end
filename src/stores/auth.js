@@ -38,20 +38,28 @@ export const useAuthStore = defineStore('auth', () => {
   // Atualiza os dados do usuário
   async function updateUser(updatedData) {
     try {
-      const updatedUser = await authService.updateUser(
-        {
-          name: updatedData.name,
-          foto: updatedData.foto
-            ? {
-                url: updatedData.foto.url,
-                description: updatedData.foto.description,
-              }
-            : null,
-        },
-        console.log('Token enviado:', token),
+
+      const payload = {
+        name: updatedData.name,
+        foto: updatedData.foto
+          ? { url: updatedData.foto.url, description: updatedData.foto.description }
+          : null,
+      }
+
+      console.log('Token enviado:', token.value)
+      console.log(
+        'Chamando updateUser com (data, token, id):',
+        payload,
         token.value,
         updatedData.id,
-      ) // PATCH
+      )
+
+      const updatedUser = await authService.updateUser(
+        payload, // data
+        token.value, // token como string
+        updatedData.id, // id por último, se essa for a assinatura do service
+      )
+
       user.value = updatedUser
       return updatedUser
     } catch (error) {
