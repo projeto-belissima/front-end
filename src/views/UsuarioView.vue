@@ -1,18 +1,91 @@
 <script setup>
-import { ref } from "vue"
-import icone from "@/assets/img/icone-de-pessoa.png"
+import { ref, watch, onMounted } from "vue"
+import { useAuthStore } from '@/stores/auth'; // Importa a store de autenticação
+import { useTelefoneStore } from "@/stores/telefone"
 
-const fotoPerfil = ref(icone)
+const authStore = useAuthStore();
+const telefoneStore = useTelefoneStore()
 
-function selecionarFoto(event) {
-  const arquivo = event.target.files[0]
-  if (arquivo) {
-    fotoPerfil.value = URL.createObjectURL(arquivo)
+const user = ref({
+  id: null,
+  name: '',
+  email: '',
+  foto: {
+    url: '',
+    description: '',
+  }
+});
+
+const telefoneNumero = ref('')
+
+
+// Montagem inicial
+onMounted(async () => {
+  await authStore.fetchUser()
+
+  if (authStore.user && authStore.user.id) {
+    // Garante que o campo foto nunca seja null
+    const backendUser = authStore.user
+    user.value = {
+      id: backendUser.id || null,
+      name: backendUser.name || '',
+      email: backendUser.email || '',
+      foto: backendUser.foto || { url: '', description: '' },
+    }
+
+    await telefoneStore.fetchTelefone()
+    if (telefoneStore.telefone) {
+      telefoneNumero.value = telefoneStore.telefone?.numero
+    }
+  }
+})
+
+
+
+// Sincroniza se o usuário mudar no store
+watch(
+  () => authStore.user,
+  (newUser) => {
+    if (newUser) {
+      Object.assign(user.value, {
+        id: newUser.id ?? user.value.id,
+        name: newUser.name || "",
+        email: newUser.email || "",
+        foto: newUser.foto || { url: "", description: "" },
+      })
+    }
+  }
+)
+
+
+// Salvar alterações de usuário
+async function salvarAlteracoes() {
+  try {
+    if (!user.value.id) {
+      alert("Usuário não identificado. Faça login novamente.")
+      return
+    }
+    await authStore.updateUser(user.value)
+    await authStore.fetchUser()
+    await telefoneStore.saveTelefone(telefoneNumero.value)
+    alert("Perfil atualizado com sucesso!")
+  } catch (error) {
+    console.error("Erro ao salvar:", error)
+    alert("Erro ao salvar alterações.")
   }
 }
 
-const editando = ref(false)
+// Atualizar foto localmente
+function selecionarFoto(event) {
+  const arquivo = event.target.files[0]
+  if (arquivo) {
+    if (!user.value.foto) user.value.foto = {}
+    user.value.foto.url = URL.createObjectURL(arquivo)
+  }
+}
 
+// Alternar modo de edição
+const editando = ref(false)
 function alternarEdicao() {
   editando.value = !editando.value
 }
@@ -21,14 +94,64 @@ function alternarEdicao() {
 <template>
   <h1>meu perfil</h1>
 
+
   <div class="perfil-container">
-    <div class="infos">
-      <p>nome completo:</p>
-      <p>apelido:</p>
-    </div>
+    <form class="perfil-container-infos" @submit.prevent="alternarEdicao">
+      <fieldset>
+        <h3>informações gerais</h3>
+        <div>
+          <label>nome:</label>
+          <input v-model="user.name" type="text" :disabled="!editando" />
+        </div>
+        <div>
+          <label>email:</label>
+          <input v-model="user.email" type="text" :disabled="!editando" />
+        </div>
+        <div>
+          <label>telefone:</label>
+          <input v-model="telefoneNumero" type="text" placeholder="(xx) xxxxx-xxxx" :disabled="!editando" />
+        </div>
+        <a @click="salvarAlteracoes">salvar</a>
+        <a @click="salvarTelefone">saalvar telefone</a>
+      </fieldset>
+
+      <fieldset>
+        <h3>endereço</h3>
+        <div>
+          <label>cep:</label>
+          <input type="text" :disabled="!editando" />
+        </div>
+        <div>
+          <label>número:</label>
+          <input type="text" :disabled="!editando" />
+        </div>
+        <div>
+          <label>logradouro:</label>
+          <input type="text" :disabled="!editando" />
+        </div>
+        <div>
+          <label>bairro:</label>
+          <input type="text" :disabled="!editando" />
+        </div>
+        <div>
+          <label>cidade:</label>
+          <input type="text" :disabled="!editando" />
+        </div>
+        <div>
+          <label>estado:</label>
+          <input type="text" :disabled="!editando" />
+        </div>
+      </fieldset>
+
+      <div>
+        <button type="submit">{{ editando ? 'salvar' : 'editar' }}</button>
+      </div>
+
+    </form>
+
     <div class="foto-container">
       <label for="upload">
-        <img :src="fotoPerfil" alt="Imagem de perfil" class="foto" />
+        <img :src="user?.foto?.url || '/img/padrao.png'" alt="Imagem de perfil" class="foto" />
       </label>
       <input type="file" id="upload" accept="image/*" @change="selecionarFoto" hidden />
       <span class="dica">clique na foto para alterar</span>
@@ -38,8 +161,8 @@ function alternarEdicao() {
   <div class="informacoes">
     <h2>minhas medidas</h2>
     <p>minhas medições ajuda a simplificar o processo de encontrar a sua adaptação perfeita!</p>
-    
-    <form @submit.prevent="alternarEdicao">
+
+    <form class="informacoes-formulario" @submit.prevent="alternarEdicao">
       <div>
         <label>altura:</label>
         <input type="text" :disabled="!editando" />
@@ -68,62 +191,36 @@ function alternarEdicao() {
 </template>
 
 <style scoped>
-h1 {
-  font-size: 2rem;
-  font-family: var(--fonte-principal);
-  text-align: center;
-  margin-top: 1.5rem;
-}
-
-div.informacoes {
+.perfil-container {
   display: grid;
+  grid-template-columns: 2fr 1fr;
+  font-family: var(--fonte-principal);
   width: 90%;
   justify-self: center;
-  font-family: var(--fonte-corpo);
-  font-size: medium;
-  margin-top: 2rem;
 }
 
-form {
+.perfil-container-infos>fieldset {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   margin-top: 1rem;
-}
 
-form div {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-}
-
-input {
-  border: none;
-  flex: 1;
-  max-width: 300px;
-}
-
-input:disabled {
-  background-color: #f0f0f0;
-  color: #777;
-  cursor: not-allowed;
-}
-
-.perfil-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  width: 90%;
-  justify-self: center;
+  & div {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
 }
 
 .foto-container {
-  position: relative;
-  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .foto-container .foto {
   width: 100%;
-  max-width: 150px;
+  max-width: 15rem;
   height: auto;
   border-radius: 50%;
   object-fit: cover;
@@ -145,10 +242,51 @@ input:disabled {
   margin-top: 0.5rem;
 }
 
+h1 {
+  font-size: 2rem;
+  font-family: var(--fonte-principal);
+  text-align: center;
+  margin-top: 1.5rem;
+}
+
+div.informacoes {
+  display: grid;
+  width: 90%;
+  justify-self: center;
+  font-family: var(--fonte-principal);
+  font-size: medium;
+  margin-top: 2rem;
+}
+
+.informacoes-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.informacoes-formulario div {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+input {
+  border: none;
+  flex: 1;
+  max-width: 300px;
+}
+
+input:disabled {
+  background-color: #f0f0f0;
+  color: #777;
+  cursor: not-allowed;
+}
+
 @media (max-width: 768px) {
   .perfil-container {
-    grid-template-columns: 1fr;
-    text-align: left;
+    display: flex;
+    flex-direction: column-reverse;
   }
 
   .foto-container {
@@ -156,9 +294,13 @@ input:disabled {
   }
 }
 
-.infos p {
+.perfil-container-infos>fieldset {
+  border: none;
+}
+
+.perfil-container-infos p {
   font-size: 1.25rem;
-  font-family: var(--fonte-corpo);
+  text-transform: lowercase;
   margin: 0.3rem 0;
 }
 
@@ -197,7 +339,7 @@ button:hover {
     font-size: 1.5rem;
   }
 
-  .infos p {
+  .perfil-container-infos p {
     font-size: 1rem;
   }
 }
