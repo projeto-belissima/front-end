@@ -1,34 +1,17 @@
 <script setup>
 import "@passageidentity/passage-elements/passage-auth";
-import { usarLoginConfig } from '@/stores/login';
+import { useLoginConfig } from '@/stores/login';
 
-import { ref, onMounted } from 'vue'
-
-import { PassageUser } from '@passageidentity/passage-elements/passage-user';
-import { useAuthStore } from '@/stores/auth';
+import { ref } from 'vue'
 
 const appId = import.meta.env.VITE_PASSAGE_APP_ID;
-const loginConfig = usarLoginConfig();
+const loginConfig = useLoginConfig();
 
-const authStore = useAuthStore();
+
 const psg_auth_token = ref('');
 const copyMessageVisible = ref(false);
 
-const getUserInfo = async () => {
-  try {
-    const authToken = localStorage.getItem('psg_auth_token');
-    const passageUser = new PassageUser(authToken);
-    const user = await passageUser.userInfo(authToken);
-    psg_auth_token.value = authToken;
-    if (user) {
-      await authStore.setToken(authToken);
-    } else {
-      authStore.unsetToken();
-    }
-  } catch (error) {
-    authStore.unsetToken();
-  }
-};
+
 
 const copyToClipboard = () => {
   navigator.clipboard.writeText(psg_auth_token.value).then(() => {
@@ -40,10 +23,6 @@ const copyToClipboard = () => {
     console.error('Erro ao copiar o token: ', err);
   });
 };
-
-onMounted(() => {
-  getUserInfo();
-})
 </script>
 
 <template>

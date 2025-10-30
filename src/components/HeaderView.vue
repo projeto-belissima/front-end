@@ -1,10 +1,10 @@
 <script setup>
 import { ref, computed } from 'vue'
 import LoginView from './LoginView.vue'
-import { usarLoginConfig } from '@/stores/login';
+import { useLoginConfig } from '@/stores/login';
 import { useAuthStore } from '@/stores/auth'; // Importa a store de autenticação
 
-const loginConfig = usarLoginConfig();
+const loginConfig = useLoginConfig();
 const authStore = useAuthStore();
 
 // Computa se o usuário está logado e obtém os dados do usuário

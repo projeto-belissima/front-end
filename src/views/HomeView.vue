@@ -5,6 +5,30 @@ import Swiper from 'swiper/bundle';
 import 'swiper/css/bundle';
 
 import { RouterLink } from 'vue-router';
+import { PassageUser } from '@passageidentity/passage-elements/passage-user';
+import { useAuthStore } from '@/stores/auth';
+
+const authStore = useAuthStore();
+
+const psg_auth_token = ref('');
+
+
+const getUserInfo = async () => {
+  try {
+    const authToken = localStorage.getItem('psg_auth_token');
+    const passageUser = new PassageUser(authToken);
+    const user = await passageUser.userInfo(authToken);
+    psg_auth_token.value = authToken;
+    if (user) {
+      await authStore.setToken(authToken);
+    } else {
+      authStore.unsetToken();
+    }
+  } catch (error) {
+    authStore.unsetToken();
+  }
+};
+
 
 const stories = ref([
   { id: 1, nome: "novidades", img: "quadrado-marrom.png", alt: "" },
@@ -36,7 +60,7 @@ const colaboradores = ref([
 const imgUrl = (img) => new URL(`../assets/img/${img}`, import.meta.url).href;
 
 onMounted(() => {
-  // getUserInfo();
+  getUserInfo();
   new Swiper('.swiper', {
     direction: 'horizontal',
     loop: true,
