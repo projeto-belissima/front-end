@@ -88,6 +88,8 @@ function selecionarFoto(event) {
 const editando = ref(false)
 function alternarEdicao() {
   editando.value = !editando.value
+
+  if (!editando.value) salvarAlteracoes()
 }
 </script>
 
@@ -111,8 +113,6 @@ function alternarEdicao() {
           <label>telefone:</label>
           <input v-model="telefoneNumero" type="text" placeholder="(xx) xxxxx-xxxx" :disabled="!editando" />
         </div>
-        <a @click="salvarAlteracoes">salvar</a>
-        <a @click="salvarTelefone">saalvar telefone</a>
       </fieldset>
 
       <fieldset>
@@ -143,7 +143,7 @@ function alternarEdicao() {
         </div>
       </fieldset>
 
-      <div>
+      <div class="botao-perfil">
         <button type="submit">{{ editando ? 'salvar' : 'editar' }}</button>
       </div>
 
@@ -183,7 +183,7 @@ function alternarEdicao() {
         <label>quadril:</label>
         <input type="text" :disabled="!editando" />
       </div>
-      <div>
+      <div class="botao-perfil">
         <button type="submit">{{ editando ? 'salvar' : 'editar' }}</button>
       </div>
     </form>
@@ -209,6 +209,19 @@ function alternarEdicao() {
     display: flex;
     align-items: center;
     gap: 1rem;
+  }
+}
+
+.botao-perfil {
+  margin-top: 1rem;
+
+  & button {
+    padding: .3rem 2.3rem;
+    border: 1px solid #000;
+    border-radius: 5px;
+    font-family: var(--fonte-principal);
+    font-size: 1rem;
+    cursor: pointer;
   }
 }
 
@@ -303,19 +316,6 @@ input:disabled {
   text-transform: lowercase;
   margin: 0.3rem 0;
 }
-
-button {
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  border: 1px solid black;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #f5f5f5;
-}
-
 
 @media (max-width: 600px) {
   form div {
