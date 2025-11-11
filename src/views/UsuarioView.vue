@@ -151,7 +151,8 @@ function alternarEdicao() {
 
     <div class="foto-container">
       <label for="upload">
-        <img :src="user?.foto?.url || '/img/padrao.png'" alt="Imagem de perfil" class="foto" />
+        <img v-if="user?.foto?.url" :src="user?.foto?.url" alt="Imagem de perfil" class="foto" />
+        <img v-else src="../assets/img/user.svg" alt="Sem foto" class="foto">
       </label>
       <input type="file" id="upload" accept="image/*" @change="selecionarFoto" hidden />
       <span class="dica">clique na foto para alterar</span>
@@ -233,7 +234,7 @@ function alternarEdicao() {
 
 .foto-container .foto {
   width: 100%;
-  max-width: 15rem;
+  max-width: 9rem;
   height: auto;
   border-radius: 50%;
   object-fit: cover;
@@ -259,7 +260,7 @@ h1 {
   font-size: 2rem;
   font-family: var(--fonte-principal);
   text-align: center;
-  margin-top: 1.5rem;
+  margin: 1.5rem 0;
 }
 
 div.informacoes {
