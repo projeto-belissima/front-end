@@ -88,6 +88,8 @@ function selecionarFoto(event) {
 const editando = ref(false)
 function alternarEdicao() {
   editando.value = !editando.value
+
+  if (!editando.value) salvarAlteracoes()
 }
 </script>
 
@@ -111,8 +113,6 @@ function alternarEdicao() {
           <label>telefone:</label>
           <input v-model="telefoneNumero" type="text" placeholder="(xx) xxxxx-xxxx" :disabled="!editando" />
         </div>
-        <a @click="salvarAlteracoes">salvar</a>
-        <a @click="salvarTelefone">saalvar telefone</a>
       </fieldset>
 
       <fieldset>
@@ -143,7 +143,7 @@ function alternarEdicao() {
         </div>
       </fieldset>
 
-      <div>
+      <div class="botao-perfil">
         <button type="submit">{{ editando ? 'salvar' : 'editar' }}</button>
       </div>
 
@@ -151,7 +151,8 @@ function alternarEdicao() {
 
     <div class="foto-container">
       <label for="upload">
-        <img :src="user?.foto?.url || '/img/padrao.png'" alt="Imagem de perfil" class="foto" />
+        <img v-if="user?.foto?.url" :src="user?.foto?.url" alt="Imagem de perfil" class="foto" />
+        <img v-else src="../assets/img/user.svg" alt="Sem foto" class="foto">
       </label>
       <input type="file" id="upload" accept="image/*" @change="selecionarFoto" hidden />
       <span class="dica">clique na foto para alterar</span>
@@ -183,7 +184,7 @@ function alternarEdicao() {
         <label>quadril:</label>
         <input type="text" :disabled="!editando" />
       </div>
-      <div>
+      <div class="botao-perfil">
         <button type="submit">{{ editando ? 'salvar' : 'editar' }}</button>
       </div>
     </form>
@@ -212,6 +213,19 @@ function alternarEdicao() {
   }
 }
 
+.botao-perfil {
+  margin-top: 1rem;
+
+  & button {
+    padding: .3rem 2.3rem;
+    border: 1px solid #000;
+    border-radius: 5px;
+    font-family: var(--fonte-principal);
+    font-size: 1rem;
+    cursor: pointer;
+  }
+}
+
 .foto-container {
   display: flex;
   flex-direction: column;
@@ -220,7 +234,7 @@ function alternarEdicao() {
 
 .foto-container .foto {
   width: 100%;
-  max-width: 15rem;
+  max-width: 9rem;
   height: auto;
   border-radius: 50%;
   object-fit: cover;
@@ -246,7 +260,7 @@ h1 {
   font-size: 2rem;
   font-family: var(--fonte-principal);
   text-align: center;
-  margin-top: 1.5rem;
+  margin: 1.5rem 0;
 }
 
 div.informacoes {
@@ -303,19 +317,6 @@ input:disabled {
   text-transform: lowercase;
   margin: 0.3rem 0;
 }
-
-button {
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  border: 1px solid black;
-  font-size: 1rem;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #f5f5f5;
-}
-
 
 @media (max-width: 600px) {
   form div {
