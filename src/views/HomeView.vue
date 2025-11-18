@@ -26,6 +26,7 @@ const getUserInfo = async () => {
     }
   } catch (error) {
     authStore.unsetToken();
+    console.error(error)
   }
 };
 

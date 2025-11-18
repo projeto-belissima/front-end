@@ -3,7 +3,7 @@ import axios from 'axios'
 export class UsuarioService {
   async adicionarUsuario() {
     const response = await axios.post(
-      `https://belissima-deoi.onrender.com/api/usuarios`,
+      `usuarios`,
     )
     return response.data
   }
