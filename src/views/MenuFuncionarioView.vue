@@ -8,11 +8,11 @@
       <ul class="navegacao-links">
         <li>
           <img src="../assets/img/coin.svg" alt="Cifrão">
-          <p>Lucro</p>
+          <p> <RouterLink to="/vendas">Lucro</RouterLink> </p>
         </li>
         <li>
           <img src="../assets/img/dress.svg" alt="Vestido">
-          <p>Vestidos</p>
+          <p> <RouterLink to="/modelos-vestidos">Vestidos</RouterLink> </p>
         </li>
         <li>
           <img src="../assets/img/list.svg" alt="Lista">
@@ -31,10 +31,10 @@
       </div>
 
       <div class="perfil-dados">
-        <p>Nome - CPF</p>
-        <p>Setor</p>
-        <p>Função</p>
-        <p>Status</p>
+        <p>Vinícius Rech - 999.999.999-32</p>
+        <p>Administrativo</p>
+        <p>Gerente</p>
+        <p>Ativo</p>
       </div>
     </section>
   </main>
@@ -71,6 +71,11 @@
 
     & li > img {
       width: 1rem;
+    }
+
+    & li > p > a {
+      text-decoration: none;
+      color: #000;
     }
   }
 
