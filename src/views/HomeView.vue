@@ -32,10 +32,10 @@ const getUserInfo = async () => {
 
 
 const stories = ref([
-  { id: 1, nome: "novidades", img: "quadrado-marrom.png", alt: "" },
-  { id: 2, nome: "longos", img: "quadrado-marrom.png", alt: "" },
-  { id: 3, nome: "midis", img: "quadrado-marrom.png", alt: "" },
-  { id: 4, nome: "curtos", img: "quadrado-marrom.png", alt: "" },
+  { id: 1, nome: "novidades", img: "vestido-curto-cinza.png", alt: "curto cinza" },
+  { id: 2, nome: "longos", img: "vestido-longo-azul.png", alt: "longo azul" },
+  { id: 3, nome: "midis", img: "vestido-midi-vermelho2.png", alt: "midi vermelho" },
+  { id: 4, nome: "curtos", img: "vestido-curto-preto1.png", alt: "curto preto" },
 ])
 
 const destaques = ref([
@@ -177,7 +177,9 @@ onMounted(() => {
 
   & img {
     width: 7rem;
+    height: 7rem;
     border-radius: 50%;
+    object-fit: contain;
   }
 
   & h5 {
